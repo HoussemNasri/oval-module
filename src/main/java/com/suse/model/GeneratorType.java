@@ -6,7 +6,7 @@
 //
 
 
-package org.mitre.oval.xmlschema.oval_common_5;
+package com.suse.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -22,38 +22,14 @@ import org.w3c.dom.Element;
 
 
 /**
- * Additional generator information is also allowed although it is not part of the official OVAL Schema. Individual organizations can place generator information that they feel are important and these will be skipped during the validation. All OVAL really cares about is that the stated generator information is there.
- * 
- * <p>Java class for GeneratorType complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="GeneratorType"&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;sequence&gt;
- *         &lt;element name="product_name" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
- *         &lt;element name="product_version" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
- *         &lt;element name="schema_version" type="{http://www.w3.org/2001/XMLSchema}decimal"/&gt;
- *         &lt;element name="timestamp" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
- *         &lt;any processContents='skip' maxOccurs="unbounded" minOccurs="0"/&gt;
- *       &lt;/sequence&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
- * </pre>
- * 
+ * Additional generator information is also allowed although it is not part of the official OVAL Schema. Individual
+ * organizations can place generator information that they feel are important and these will be skipped during the validation.
+ * <p>
+ * All OVAL really cares about is that the stated generator information is there.
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "GeneratorType", namespace = "http://oval.mitre.org/XMLSchema/oval-common-5", propOrder = {
-    "productName",
-    "productVersion",
-    "schemaVersion",
-    "timestamp",
-    "any"
-})
+@XmlType(name = "GeneratorType", namespace = "http://oval.mitre.org/XMLSchema/oval-common-5")
 public class GeneratorType {
 
     @XmlElement(name = "product_name", namespace = "http://oval.mitre.org/XMLSchema/oval-common-5")
@@ -70,11 +46,6 @@ public class GeneratorType {
 
     /**
      * Gets the value of the productName property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
     public String getProductName() {
         return productName;
@@ -82,11 +53,6 @@ public class GeneratorType {
 
     /**
      * Sets the value of the productName property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
     public void setProductName(String value) {
         this.productName = value;
@@ -94,11 +60,6 @@ public class GeneratorType {
 
     /**
      * Gets the value of the productVersion property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
     public String getProductVersion() {
         return productVersion;
@@ -106,11 +67,6 @@ public class GeneratorType {
 
     /**
      * Sets the value of the productVersion property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
     public void setProductVersion(String value) {
         this.productVersion = value;
@@ -118,11 +74,6 @@ public class GeneratorType {
 
     /**
      * Gets the value of the schemaVersion property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigDecimal }
-     *     
      */
     public BigDecimal getSchemaVersion() {
         return schemaVersion;
@@ -130,11 +81,6 @@ public class GeneratorType {
 
     /**
      * Sets the value of the schemaVersion property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigDecimal }
-     *     
      */
     public void setSchemaVersion(BigDecimal value) {
         this.schemaVersion = value;
@@ -142,11 +88,6 @@ public class GeneratorType {
 
     /**
      * Gets the value of the timestamp property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link XMLGregorianCalendar }
-     *     
      */
     public XMLGregorianCalendar getTimestamp() {
         return timestamp;
@@ -154,11 +95,6 @@ public class GeneratorType {
 
     /**
      * Sets the value of the timestamp property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link XMLGregorianCalendar }
-     *     
      */
     public void setTimestamp(XMLGregorianCalendar value) {
         this.timestamp = value;
@@ -166,29 +102,10 @@ public class GeneratorType {
 
     /**
      * Gets the value of the any property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the any property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getAny().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Element }
-     * 
-     * 
      */
     public List<Element> getAny() {
         if (any == null) {
-            any = new ArrayList<Element>();
+            any = new ArrayList<>();
         }
         return this.any;
     }
