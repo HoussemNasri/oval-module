@@ -8,6 +8,8 @@
 
 package org.mitre.oval.xmlschema.oval_definitions_5;
 
+import com.suse.model.*;
+
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;

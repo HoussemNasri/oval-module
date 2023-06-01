@@ -13,6 +13,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import com.suse.model.DefinitionsType;
 import org.mitre.oval.xmlschema.oval_common_5.GeneratorType;
 import org.w3._2000._09.xmldsig_.SignatureType;
 

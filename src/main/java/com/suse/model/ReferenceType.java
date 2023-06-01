@@ -6,35 +6,21 @@
 //
 
 
-package org.mitre.oval.xmlschema.oval_definitions_5;
+package com.suse.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import java.util.Optional;
 
 
 /**
- * The required source attribute specifies where the reference is coming from. In other words, it identifies the reference repository being used. The required ref_id attribute is the external id of the reference. The optional ref_url attribute is the URL to the reference.
- * 
- * <p>Java class for ReferenceType complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="ReferenceType"&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;attribute name="source" use="required" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *       &lt;attribute name="ref_id" use="required" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *       &lt;attribute name="ref_url" type="{http://www.w3.org/2001/XMLSchema}anyURI" /&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
- * </pre>
- * 
- * 
+ * The required source attribute specifies where the reference is coming from. In other words, it identifies
+ * the reference repository being used. The required ref_id attribute is the external id of the reference.
+ * <p>
+ * The optional ref_url attribute is the URL to the reference.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ReferenceType", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5")
@@ -50,11 +36,6 @@ public class ReferenceType {
 
     /**
      * Gets the value of the source property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
     public String getSource() {
         return source;
@@ -62,11 +43,6 @@ public class ReferenceType {
 
     /**
      * Sets the value of the source property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
     public void setSource(String value) {
         this.source = value;
@@ -74,11 +50,6 @@ public class ReferenceType {
 
     /**
      * Gets the value of the refId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
     public String getRefId() {
         return refId;
@@ -86,11 +57,6 @@ public class ReferenceType {
 
     /**
      * Sets the value of the refId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
     public void setRefId(String value) {
         this.refId = value;
@@ -98,23 +64,13 @@ public class ReferenceType {
 
     /**
      * Gets the value of the refUrl property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
-    public String getRefUrl() {
-        return refUrl;
+    public Optional<String> getRefUrl() {
+        return Optional.ofNullable(refUrl);
     }
 
     /**
      * Sets the value of the refUrl property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
     public void setRefUrl(String value) {
         this.refUrl = value;
