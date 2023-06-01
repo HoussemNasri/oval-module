@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
 @XmlRootElement(name = "oval_definitions", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5")
-public class RootType {
+public class DefinitionsRootType {
 
     @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5", required = true)
     protected GeneratorType generator;
