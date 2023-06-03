@@ -1,7 +1,10 @@
 package com.suse.db;
 
+import com.suse.model.FamilyEnumType;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "affected_products")
@@ -18,6 +21,8 @@ public class AffectedProductEntity {
     @JoinColumn(name = "definition_id")
     private DefinitionEntity definition;
 
+    private FamilyEnumType family;
+
     public Id getId() {
         return id;
     }
@@ -28,6 +33,10 @@ public class AffectedProductEntity {
 
     public DefinitionEntity getDefinition() {
         return definition;
+    }
+
+    public FamilyEnumType getFamily() {
+        return family;
     }
 
     public static class Id implements Serializable {
@@ -50,6 +59,19 @@ public class AffectedProductEntity {
 
         public void setProductId(Long productId) {
             this.productId = productId;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof Id)) return false;
+            Id id = (Id) o;
+            return Objects.equals(definitionId, id.definitionId) && Objects.equals(productId, id.productId);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(definitionId, productId);
         }
     }
 }
