@@ -16,6 +16,7 @@ public class HibernateUtil {
         configuration.addAnnotatedClass(ProductEntity.class);
         configuration.addAnnotatedClass(DefinitionEntity.class);
         configuration.addAnnotatedClass(AffectedProductEntity.class);
+        configuration.addAnnotatedClass(ReferenceEntity.class);
 
         configuration.configure("hibernate.cfg.xml");
 

@@ -2,10 +2,7 @@ package com.suse.db;
 
 import com.suse.model.DefinitionClass;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -13,11 +10,20 @@ import java.util.Set;
 public class DefinitionEntity {
     @Id
     private String id;
+    @Enumerated(EnumType.STRING)
     private DefinitionClass defClass;
     private String title;
     private String description;
     private Integer version;
     private Boolean deprecated;
+
+    @ManyToMany
+    @JoinTable(
+            name = "definition_references",
+            joinColumns = {@JoinColumn(name = "definition_id")},
+            inverseJoinColumns = {@JoinColumn(name = "reference_id")}
+    )
+    private Set<ReferenceEntity> references;
 
     @OneToMany(mappedBy = "definition")
     private Set<AffectedProductEntity> affectedProducts;
