@@ -38,7 +38,7 @@ public class DefinitionType {
     @XmlSchemaType(name = "nonNegativeInteger")
     protected BigInteger version;
     @XmlAttribute(name = "class", required = true)
-    protected DefinitionEnumType definitionClass;
+    protected DefinitionClass definitionClass;
     @XmlAttribute(name = "deprecated")
     protected Boolean deprecated;
 
@@ -104,14 +104,14 @@ public class DefinitionType {
     /**
      * Gets the value of the clazz property.
      */
-    public DefinitionEnumType getDefinitionClass() {
+    public DefinitionClass getDefinitionClass() {
         return definitionClass;
     }
 
     /**
      * Sets the value of the clazz property.
      */
-    public void setDefinitionClass(DefinitionEnumType value) {
+    public void setDefinitionClass(DefinitionClass value) {
         this.definitionClass = value;
     }
 

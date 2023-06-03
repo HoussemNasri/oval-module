@@ -1,6 +1,6 @@
 package com.suse;
 
-import com.suse.model.DefinitionsRootType;
+import com.suse.model.OvalRootType;
 import com.suse.model.OvalParserException;
 
 import javax.xml.bind.JAXBContext;
@@ -13,11 +13,11 @@ import java.io.File;
  */
 public class OvalParser {
 
-    public DefinitionsRootType parse(File ovalFile) throws OvalParserException {
+    public OvalRootType parse(File ovalFile) throws OvalParserException {
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(DefinitionsRootType.class);
+            JAXBContext jaxbContext = JAXBContext.newInstance(OvalRootType.class);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-            return (DefinitionsRootType) unmarshaller.unmarshal(ovalFile);
+            return (OvalRootType) unmarshaller.unmarshal(ovalFile);
         } catch (JAXBException e) {
             throw new OvalParserException("Failed to parse the given OVAL file at: " + ovalFile.getAbsolutePath(), e);
         }
