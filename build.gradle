@@ -7,6 +7,9 @@ group = 'com.suse'
 version = '1.0-SNAPSHOT'
 
 mainClassName = "com.suse.Main"
+sourceCompatibility = 11
+targetCompatibility = 11
+
 
 repositories {
     mavenCentral()
@@ -16,8 +19,14 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
-    implementation "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"
-    implementation "org.glassfish.jaxb:jaxb-runtime:2.3.2"
+    //TL;DR: DON'T UPGRADE THIS!
+    // Hibernate has a transient dependency on JAXB API. It expects the given api implementation to use
+    // the javax.xml.bind module. However, as of version 2.3.2, glassfish switched to jakarta API, and started
+    // using jakarta.xml.bind instead of javax.xml.bind
+    implementation "org.glassfish.jaxb:jaxb-runtime:2.3.1"
+
+    implementation "org.hibernate:hibernate-core:5.3.+"
+    implementation 'org.postgresql:postgresql:42.5.1'
 }
 
 test {
