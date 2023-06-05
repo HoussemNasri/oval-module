@@ -8,6 +8,9 @@
 
 package com.suse.model;
 
+import com.suse.model.linux.DpkginfoObject;
+import com.suse.model.linux.RpminfoObject;
+
 import javax.xml.bind.annotation.*;
 import java.math.BigInteger;
 
@@ -33,6 +36,13 @@ public class ObjectType {
     protected String comment;
     @XmlAttribute(name = "deprecated")
     protected Boolean deprecated;
+
+    /**
+     * This attribute is not specified for the base object type as per the schema; nevertheless, it has been included
+     * since both dpkg and rpm objects have it.
+     */
+    @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux")
+    protected String name;
 
 
     /**
@@ -95,4 +105,19 @@ public class ObjectType {
         this.deprecated = value;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isDpkg() {
+        return this instanceof DpkginfoObject;
+    }
+
+    public boolean isRpm() {
+        return this instanceof RpminfoObject;
+    }
 }

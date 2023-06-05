@@ -22,7 +22,9 @@ public class Main {
 
         OvalObjectManager ovalObjectManager = new OvalObjectManager(ovalRootType.getObjects().getObjects());
 
-        System.out.println(((RpminfoObject)(ovalObjectManager.get("oval:org.opensuse.security:obj:2009042550"))).getName());
+        System.out.println(ovalObjectManager.get("oval:org.opensuse.security:obj:2009042550").getName());
+        System.out.println(ovalObjectManager.get("oval:org.opensuse.security:obj:2009042550").isDpkg());
+        System.out.println(ovalObjectManager.get("oval:org.opensuse.security:obj:2009042550").isRpm());
 
 /*        Session session = HibernateUtil.getSession();
         Transaction transaction = session.beginTransaction();

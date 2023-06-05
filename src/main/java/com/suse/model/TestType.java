@@ -39,8 +39,6 @@ public class TestType {
     protected ExistenceEnumeration checkExistence;
     @XmlAttribute(name = "check", required = true)
     protected CheckEnumeration check;
-    @XmlAttribute(name = "state_operator")
-    protected LogicOperatorType stateOperator;
     @XmlAttribute(name = "comment", required = true)
     protected String comment;
     @XmlAttribute(name = "deprecated")
@@ -88,9 +86,6 @@ public class TestType {
 
     /**
      * Sets the value of the checkExistence property.
-     *
-     * @param value allowed object is
-     *              {@link ExistenceEnumeration }
      */
     public void setCheckExistence(ExistenceEnumeration value) {
         this.checkExistence = value;
@@ -98,9 +93,6 @@ public class TestType {
 
     /**
      * Gets the value of the check property.
-     *
-     * @return possible object is
-     * {@link CheckEnumeration }
      */
     public CheckEnumeration getCheck() {
         return check;
@@ -108,43 +100,13 @@ public class TestType {
 
     /**
      * Sets the value of the check property.
-     *
-     * @param value allowed object is
-     *              {@link CheckEnumeration }
      */
     public void setCheck(CheckEnumeration value) {
         this.check = value;
     }
 
     /**
-     * Gets the value of the stateOperator property.
-     *
-     * @return possible object is
-     * {@link LogicOperatorType }
-     */
-    public LogicOperatorType getStateOperator() {
-        if (stateOperator == null) {
-            return LogicOperatorType.AND;
-        } else {
-            return stateOperator;
-        }
-    }
-
-    /**
-     * Sets the value of the stateOperator property.
-     *
-     * @param value allowed object is
-     *              {@link LogicOperatorType }
-     */
-    public void setStateOperator(LogicOperatorType value) {
-        this.stateOperator = value;
-    }
-
-    /**
      * Gets the value of the comment property.
-     *
-     * @return possible object is
-     * {@link String }
      */
     public String getComment() {
         return comment;
@@ -152,9 +114,6 @@ public class TestType {
 
     /**
      * Sets the value of the comment property.
-     *
-     * @param value allowed object is
-     *              {@link String }
      */
     public void setComment(String value) {
         this.comment = value;
@@ -162,9 +121,6 @@ public class TestType {
 
     /**
      * Gets the value of the deprecated property.
-     *
-     * @return possible object is
-     * {@link Boolean }
      */
     public boolean isDeprecated() {
         if (deprecated == null) {
@@ -176,9 +132,6 @@ public class TestType {
 
     /**
      * Sets the value of the deprecated property.
-     *
-     * @param value allowed object is
-     *              {@link Boolean }
      */
     public void setDeprecated(Boolean value) {
         this.deprecated = value;

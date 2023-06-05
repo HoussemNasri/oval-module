@@ -13,7 +13,6 @@ import com.suse.model.ObjectType;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -21,23 +20,6 @@ import javax.xml.bind.annotation.XmlType;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "")
+@XmlType(name = "rpminfo_object")
 public class RpminfoObject extends ObjectType {
-
-    @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux")
-    protected String name;
-
-    /**
-     * Gets the value of the name property.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Sets the value of the name property.
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
 }
