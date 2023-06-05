@@ -1,14 +1,10 @@
 package com.suse;
 
-import com.suse.db.HibernateUtil;
-import com.suse.db.OvalFileEntity;
-import com.suse.model.CriterionType;
+import com.suse.manager.OvalObjectManager;
 import com.suse.model.OvalRootType;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import com.suse.model.linux.RpminfoObject;
 
 import java.io.File;
-import java.time.Instant;
 
 public class Main {
     public static void main(String[] args) {
@@ -23,6 +19,10 @@ public class Main {
         System.out.println("Parser took " + (end - start) / 1000 + "s to complete");
 
         System.out.println("Hello world!");
+
+        OvalObjectManager ovalObjectManager = new OvalObjectManager(ovalRootType.getObjects().getObjects());
+
+        System.out.println(((RpminfoObject)(ovalObjectManager.get("oval:org.opensuse.security:obj:2009042550"))).getName());
 
 /*        Session session = HibernateUtil.getSession();
         Transaction transaction = session.beginTransaction();
