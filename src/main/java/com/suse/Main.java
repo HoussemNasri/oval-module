@@ -2,6 +2,8 @@ package com.suse;
 
 import com.suse.db.HibernateUtil;
 import com.suse.db.OvalFileEntity;
+import com.suse.model.CriterionType;
+import com.suse.model.OvalRootType;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -13,7 +15,8 @@ public class Main {
         long start = System.currentTimeMillis();
 
         OvalParser ovalParser = new OvalParser();
-        ovalParser.parse(new File(Main.class.getResource("suse-affected.xml").getFile()));
+        OvalRootType ovalRootType = ovalParser.parse(new File(Main.class.getResource("suse-affected.xml").getFile()));
+        System.out.println(ovalRootType.getDefinitions().getDefinitions().get(0).getCriteria().getComment());
 
         long end = System.currentTimeMillis();
 
@@ -21,7 +24,7 @@ public class Main {
 
         System.out.println("Hello world!");
 
-        Session session = HibernateUtil.getSession();
+/*        Session session = HibernateUtil.getSession();
         Transaction transaction = session.beginTransaction();
 
         OvalFileEntity ovalFile = new OvalFileEntity();
@@ -33,7 +36,7 @@ public class Main {
         session.flush();
 
         session.close();
-        HibernateUtil.close();
+        HibernateUtil.close();*/
 
 
 

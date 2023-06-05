@@ -31,6 +31,8 @@ public class DefinitionType {
     @XmlElement(name = "metadata", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5", required = true)
     protected MetadataType metadata;
     @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5")
+    protected CriteriaType criteria;
+    @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5")
     protected NotesType notes;
     @XmlAttribute(name = "id", required = true)
     protected String id;
@@ -57,6 +59,14 @@ public class DefinitionType {
      */
     public void setMetadata(MetadataType value) {
         this.metadata = value;
+    }
+
+    public CriteriaType getCriteria() {
+        return criteria;
+    }
+
+    public void setCriteria(CriteriaType criteria) {
+        this.criteria = criteria;
     }
 
     /**
