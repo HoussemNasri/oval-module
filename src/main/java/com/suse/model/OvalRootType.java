@@ -8,11 +8,7 @@
 
 package com.suse.model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -22,9 +18,16 @@ public class OvalRootType {
 
     @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5", required = true)
     protected GeneratorType generator;
-
     @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5")
     protected DefinitionsType definitions;
+    @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5")
+    protected TestsType tests;
+
+    @XmlElement(name = "objects", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5")
+    protected ObjectsType objects;
+    @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5")
+    protected StatesType states;
+
 
     /**
      * Gets the value of the generator property.
@@ -52,5 +55,47 @@ public class OvalRootType {
      */
     public void setDefinitions(DefinitionsType value) {
         this.definitions = value;
+    }
+
+    /**
+     * Gets the value of the tests property.
+     */
+    public TestsType getTests() {
+        return tests;
+    }
+
+    /**
+     * Sets the value of the tests property.
+     */
+    public void setTests(TestsType value) {
+        this.tests = value;
+    }
+
+    /**
+     * Gets the value of the objects property.
+     */
+    public ObjectsType getObjects() {
+        return objects;
+    }
+
+    /**
+     * Sets the value of the objects property.
+     */
+    public void setObjects(ObjectsType value) {
+        this.objects = value;
+    }
+
+    /**
+     * Gets the value of the states property.
+     */
+    public StatesType getStates() {
+        return states;
+    }
+
+    /**
+     * Sets the value of the states property.
+     */
+    public void setStates(StatesType value) {
+        this.states = value;
     }
 }

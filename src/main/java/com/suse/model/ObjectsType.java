@@ -8,10 +8,10 @@
 
 package com.suse.model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import com.suse.model.linux.DpkginfoObject;
+import com.suse.model.linux.RpminfoObject;
+
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +26,11 @@ import java.util.List;
 @XmlType(name = "ObjectsType", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5")
 public class ObjectsType {
 
-    @XmlElement(name = "object", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5", required = true)
+    @XmlElements({
+            @XmlElement(name = "rpminfo_object", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux", type = RpminfoObject.class),
+            @XmlElement(name = "dpkginfo_object", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux", type = DpkginfoObject.class),
+            @XmlElement(name = "object", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5", type = ObjectType.class)
+    })
     protected List<ObjectType> objects;
 
     /**
