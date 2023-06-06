@@ -1,7 +1,7 @@
 package com.suse;
 
 import com.suse.model.OvalRootType;
-import com.suse.model.OvalParserException;
+import com.suse.exceptions.OvalParserException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

@@ -1,4 +1,4 @@
-package com.suse.model;
+package com.suse.exceptions;
 
 public class OvalParserException extends RuntimeException {
     public OvalParserException() {
