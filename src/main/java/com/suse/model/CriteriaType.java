@@ -109,7 +109,35 @@ public class CriteriaType implements BaseCriteria {
     }
 
     @Override
-    public boolean evaluate() {
+    public boolean evaluate(TestEvaluator testEvaluator) {
+        switch (operator) {
+            case OR:
+                return negate ^ evaluateOR(testEvaluator);
+            case AND:
+                return negate ^ evaluateAND(testEvaluator);
+            case ONE:
+            case XOR:
+                //TODO: Implement
+                return false;
+        }
         return false;
+    }
+
+    private boolean evaluateOR(TestEvaluator testEvaluator) {
+        for (BaseCriteria childCriteria : children) {
+            if (childCriteria.evaluate(testEvaluator)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean evaluateAND(TestEvaluator testEvaluator) {
+        for (BaseCriteria childCriteria : children) {
+            if (!childCriteria.evaluate(testEvaluator)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

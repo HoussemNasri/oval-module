@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CriterionType", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5")
-public class CriterionType {
+public class CriterionType implements BaseCriteria {
 
     @XmlAttribute(name = "test_ref", required = true)
     protected String testRef;
@@ -79,4 +79,8 @@ public class CriterionType {
         this.comment = value;
     }
 
+    @Override
+    public boolean evaluate(TestEvaluator testEvaluator) {
+        return negate ^ testEvaluator.evaluate(testRef);
+    }
 }
