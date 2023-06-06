@@ -10,6 +10,8 @@ package com.suse.model;
 
 import javax.xml.bind.annotation.*;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -44,6 +46,14 @@ public class TestType {
     @XmlAttribute(name = "deprecated")
     protected Boolean deprecated;
 
+    /**
+     * These attributes are not specified for the base test type as per the schema; nevertheless, it has been included
+     * since both dpkg and rpm test types have it.
+     */
+    @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux", required = true)
+    protected ObjectRefType object;
+    @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux")
+    protected List<StateRefType> state;
 
     /**
      * Gets the value of the id property.
@@ -136,5 +146,33 @@ public class TestType {
     public void setDeprecated(Boolean value) {
         this.deprecated = value;
     }
+
+    /**
+     * Gets the value of the object property.
+     *
+     */
+    public ObjectRefType getObject() {
+        return object;
+    }
+
+    /**
+     * Sets the value of the object property.
+     *
+     */
+    public void setObject(ObjectRefType value) {
+        this.object = value;
+    }
+
+    /**
+     * Gets the value of the state property.
+     *
+     */
+    public List<StateRefType> getState() {
+        if (state == null) {
+            state = new ArrayList<StateRefType>();
+        }
+        return this.state;
+    }
+
 
 }

@@ -23,9 +23,7 @@ import java.util.List;
  * about an individual test.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TestsType", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5", propOrder = {
-        "test"
-})
+@XmlType(name = "TestsType", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5")
 public class TestsType {
 
     @XmlElement(name = "test", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5", required = true)
