@@ -15,23 +15,8 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * The ObjectRefType complex type defines an object reference to be used by OVAL Tests that are defined in the component schemas. The required object_ref attribute specifies the id of the OVAL Object being referenced.
- * 
- * <p>Java class for ObjectRefType complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="ObjectRefType"&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;attribute name="object_ref" use="required" type="{http://oval.mitre.org/XMLSchema/oval-common-5}ObjectIDPattern" /&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
- * </pre>
- * 
- * 
+ * The ObjectRefType defines an object reference to be used by OVAL Tests that are defined in the component schemas.
+ * The required object_ref attribute specifies the id of the OVAL Object being referenced.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ObjectRefType", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5")
@@ -42,11 +27,6 @@ public class ObjectRefType {
 
     /**
      * Gets the value of the objectRef property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
     public String getObjectRef() {
         return objectRef;
@@ -54,11 +34,6 @@ public class ObjectRefType {
 
     /**
      * Sets the value of the objectRef property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
     public void setObjectRef(String value) {
         this.objectRef = value;

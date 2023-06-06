@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- *
+ * A rpm info object consists of a single name entity that identifies the package being checked.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "rpminfo_object")

@@ -38,9 +38,9 @@ public class TestType {
     @XmlSchemaType(name = "nonNegativeInteger")
     protected BigInteger version;
     @XmlAttribute(name = "check_existence")
-    protected ExistenceEnumeration checkExistence;
+    protected ExistenceEnum checkExistence;
     @XmlAttribute(name = "check", required = true)
-    protected CheckEnumeration check;
+    protected CheckEnum check;
     @XmlAttribute(name = "comment", required = true)
     protected String comment;
     @XmlAttribute(name = "deprecated")
@@ -86,9 +86,9 @@ public class TestType {
     /**
      * Gets the value of the checkExistence property.
      */
-    public ExistenceEnumeration getCheckExistence() {
+    public ExistenceEnum getCheckExistence() {
         if (checkExistence == null) {
-            return ExistenceEnumeration.AT_LEAST_ONE_EXISTS;
+            return ExistenceEnum.AT_LEAST_ONE_EXISTS;
         } else {
             return checkExistence;
         }
@@ -97,21 +97,21 @@ public class TestType {
     /**
      * Sets the value of the checkExistence property.
      */
-    public void setCheckExistence(ExistenceEnumeration value) {
+    public void setCheckExistence(ExistenceEnum value) {
         this.checkExistence = value;
     }
 
     /**
      * Gets the value of the check property.
      */
-    public CheckEnumeration getCheck() {
+    public CheckEnum getCheck() {
         return check;
     }
 
     /**
      * Sets the value of the check property.
      */
-    public void setCheck(CheckEnumeration value) {
+    public void setCheck(CheckEnum value) {
         this.check = value;
     }
 
@@ -149,7 +149,6 @@ public class TestType {
 
     /**
      * Gets the value of the object property.
-     *
      */
     public ObjectRefType getObject() {
         return object;
@@ -157,7 +156,6 @@ public class TestType {
 
     /**
      * Sets the value of the object property.
-     *
      */
     public void setObject(ObjectRefType value) {
         this.object = value;
@@ -165,7 +163,6 @@ public class TestType {
 
     /**
      * Gets the value of the state property.
-     *
      */
     public List<StateRefType> getState() {
         if (state == null) {

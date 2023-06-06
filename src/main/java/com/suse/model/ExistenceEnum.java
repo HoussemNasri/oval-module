@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlType(name = "ExistenceEnumeration", namespace = "http://oval.mitre.org/XMLSchema/oval-common-5")
 @XmlEnum
-public enum ExistenceEnumeration {
+public enum ExistenceEnum {
 
 
     /**
@@ -54,7 +54,7 @@ public enum ExistenceEnumeration {
     ONLY_ONE_EXISTS("only_one_exists");
     private final String value;
 
-    ExistenceEnumeration(String v) {
+    ExistenceEnum(String v) {
         value = v;
     }
 
@@ -62,8 +62,8 @@ public enum ExistenceEnumeration {
         return value;
     }
 
-    public static ExistenceEnumeration fromValue(String v) {
-        for (ExistenceEnumeration c: ExistenceEnumeration.values()) {
+    public static ExistenceEnum fromValue(String v) {
+        for (ExistenceEnum c: ExistenceEnum.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlType(name = "ClassEnumeration", namespace = "http://oval.mitre.org/XMLSchema/oval-common-5")
 @XmlEnum
-public enum DefinitionClass {
+public enum DefinitionClassEnum {
 
     /**
      * A patch definition details the machine state of whether a patch executable should be installed.
@@ -36,7 +36,7 @@ public enum DefinitionClass {
     VULNERABILITY("vulnerability");
     private final String value;
 
-    DefinitionClass(String v) {
+    DefinitionClassEnum(String v) {
         value = v;
     }
 
@@ -44,8 +44,8 @@ public enum DefinitionClass {
         return value;
     }
 
-    public static DefinitionClass fromValue(String v) {
-        for (DefinitionClass c : DefinitionClass.values()) {
+    public static DefinitionClassEnum fromValue(String v) {
+        for (DefinitionClassEnum c : DefinitionClassEnum.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

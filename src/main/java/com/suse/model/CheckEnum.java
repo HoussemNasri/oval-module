@@ -13,27 +13,9 @@ import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
 
-/**
- * <p>Java class for CheckEnumeration.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * <p>
- * <pre>
- * &lt;simpleType name="CheckEnumeration"&gt;
- *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
- *     &lt;enumeration value="all"/&gt;
- *     &lt;enumeration value="at least one"/&gt;
- *     &lt;enumeration value="none exist"/&gt;
- *     &lt;enumeration value="none satisfy"/&gt;
- *     &lt;enumeration value="only one"/&gt;
- *   &lt;/restriction&gt;
- * &lt;/simpleType&gt;
- * </pre>
- * 
- */
 @XmlType(name = "CheckEnumeration", namespace = "http://oval.mitre.org/XMLSchema/oval-common-5")
 @XmlEnum
-public enum CheckEnumeration {
+public enum CheckEnum {
 
 
     /**
@@ -72,7 +54,7 @@ public enum CheckEnumeration {
     ONLY_ONE("only one");
     private final String value;
 
-    CheckEnumeration(String v) {
+    CheckEnum(String v) {
         value = v;
     }
 
@@ -80,8 +62,8 @@ public enum CheckEnumeration {
         return value;
     }
 
-    public static CheckEnumeration fromValue(String v) {
-        for (CheckEnumeration c: CheckEnumeration.values()) {
+    public static CheckEnum fromValue(String v) {
+        for (CheckEnum c: CheckEnum.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

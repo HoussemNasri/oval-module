@@ -15,23 +15,8 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * The StateRefType complex type defines a state reference to be used by OVAL Tests that are defined in the component schemas. The required state_ref attribute specifies the id of the OVAL State being referenced.
- * 
- * <p>Java class for StateRefType complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="StateRefType"&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;attribute name="state_ref" use="required" type="{http://oval.mitre.org/XMLSchema/oval-common-5}StateIDPattern" /&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
- * </pre>
- * 
- * 
+ * The StateRefType defines a state reference to be used by OVAL Tests that are defined in the component schemas.
+ * The required state_ref attribute specifies the id of the OVAL State being referenced.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StateRefType", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5")
@@ -42,11 +27,6 @@ public class StateRefType {
 
     /**
      * Gets the value of the stateRef property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
     public String getStateRef() {
         return stateRef;
@@ -54,11 +34,6 @@ public class StateRefType {
 
     /**
      * Sets the value of the stateRef property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
     public void setStateRef(String value) {
         this.stateRef = value;

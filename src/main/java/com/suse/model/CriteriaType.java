@@ -8,6 +8,8 @@
 
 package com.suse.model;
 
+import com.suse.TestEvaluator;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;

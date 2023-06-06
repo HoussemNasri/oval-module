@@ -1,6 +1,6 @@
 package com.suse.db;
 
-import com.suse.model.FamilyEnumType;
+import com.suse.model.FamilyEnum;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,7 +21,7 @@ public class AffectedProductEntity {
     @JoinColumn(name = "definition_id")
     private DefinitionEntity definition;
 
-    private FamilyEnumType family;
+    private FamilyEnum family;
 
     public Id getId() {
         return id;
@@ -35,7 +35,7 @@ public class AffectedProductEntity {
         return definition;
     }
 
-    public FamilyEnumType getFamily() {
+    public FamilyEnum getFamily() {
         return family;
     }
 

@@ -17,6 +17,7 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
+ * A dpkginfo object consists of a single name entity that identifies the package being checked.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "dpkginfo_object")

@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlType(name = "FamilyEnumeration", namespace = "http://oval.mitre.org/XMLSchema/oval-common-5")
 @XmlEnum
-public enum FamilyEnumType {
+public enum FamilyEnum {
 
 
     /**
@@ -67,7 +67,7 @@ public enum FamilyEnumType {
     WINDOWS("windows");
     private final String value;
 
-    FamilyEnumType(String v) {
+    FamilyEnum(String v) {
         value = v;
     }
 
@@ -75,8 +75,8 @@ public enum FamilyEnumType {
         return value;
     }
 
-    public static FamilyEnumType fromValue(String v) {
-        for (FamilyEnumType c: FamilyEnumType.values()) {
+    public static FamilyEnum fromValue(String v) {
+        for (FamilyEnum c: FamilyEnum.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

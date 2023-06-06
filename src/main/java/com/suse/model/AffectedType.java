@@ -28,7 +28,7 @@ public class AffectedType {
     @XmlElement(name = "product", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5")
     protected List<String> products;
     @XmlAttribute(name = "family", required = true)
-    protected FamilyEnumType family;
+    protected FamilyEnum family;
 
     /**
      * Gets the value of the list of affected platforms
@@ -53,14 +53,14 @@ public class AffectedType {
     /**
      * Gets the value of the family property.
      */
-    public FamilyEnumType getFamily() {
+    public FamilyEnum getFamily() {
         return family;
     }
 
     /**
      * Sets the value of the family property.
      */
-    public void setFamily(FamilyEnumType value) {
+    public void setFamily(FamilyEnum value) {
         this.family = value;
     }
 

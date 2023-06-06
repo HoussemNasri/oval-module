@@ -1,4 +1,4 @@
-package com.suse.model;
+package com.suse;
 
 import com.suse.manager.OvalTestManager;
 

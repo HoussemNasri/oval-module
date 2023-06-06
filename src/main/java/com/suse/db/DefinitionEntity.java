@@ -1,6 +1,6 @@
 package com.suse.db;
 
-import com.suse.model.DefinitionClass;
+import com.suse.model.DefinitionClassEnum;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -11,7 +11,7 @@ public class DefinitionEntity {
     @Id
     private String id;
     @Enumerated(EnumType.STRING)
-    private DefinitionClass defClass;
+    private DefinitionClassEnum defClass;
     private String title;
     private String description;
     private Integer version;
@@ -45,11 +45,11 @@ public class DefinitionEntity {
         this.id = id;
     }
 
-    public DefinitionClass getDefClass() {
+    public DefinitionClassEnum getDefClass() {
         return defClass;
     }
 
-    public void setDefClass(DefinitionClass defClass) {
+    public void setDefClass(DefinitionClassEnum defClass) {
         this.defClass = defClass;
     }
 
