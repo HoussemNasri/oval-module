@@ -8,10 +8,12 @@
 
 package com.suse.model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import com.suse.model.linux.DpkginfoState;
+import com.suse.model.linux.DpkginfoTest;
+import com.suse.model.linux.RpminfoState;
+import com.suse.model.linux.RpminfoTest;
+
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +28,11 @@ import java.util.List;
 @XmlType(name = "TestsType", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5")
 public class TestsType {
 
-    @XmlElement(name = "test", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5", required = true)
+    @XmlElements({
+            @XmlElement(name = "rpminfo_test", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux", type = RpminfoTest.class),
+            @XmlElement(name = "dpkginfo_test", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux", type = DpkginfoTest.class),
+            @XmlElement(name = "test", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5", type = TestType.class)
+    })
     protected List<TestType> tests;
 
     /**
@@ -34,7 +40,7 @@ public class TestsType {
      */
     public List<TestType> getTests() {
         if (tests == null) {
-            tests = new ArrayList<TestType>();
+            tests = new ArrayList<>();
         }
         return this.tests;
     }

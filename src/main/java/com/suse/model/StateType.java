@@ -34,6 +34,14 @@ public class StateType {
     protected String comment;
     @XmlAttribute(name = "deprecated")
     protected Boolean deprecated;
+    @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux")
+    protected EVRType evr;
+
+    @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux")
+    protected String name;
+
+    @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux")
+    protected String arch;
 
 
     /**
@@ -114,4 +122,11 @@ public class StateType {
         this.deprecated = value;
     }
 
+    public EVRType getEvr() {
+        return evr;
+    }
+
+    public void setEvr(EVRType evr) {
+        this.evr = evr;
+    }
 }

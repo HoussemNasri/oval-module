@@ -22,7 +22,6 @@ public class OvalRootType {
     protected DefinitionsType definitions;
     @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5")
     protected TestsType tests;
-
     @XmlElement(name = "objects", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5")
     protected ObjectsType objects;
     @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5")
