@@ -26,4 +26,8 @@ public class OvalObjectManager {
     public boolean exists(String objectId) {
         return objectsMap.containsKey(objectId);
     }
+
+    public void add(ObjectType objectType) {
+        objectsMap.put(objectType.getId(), objectType);
+    }
 }

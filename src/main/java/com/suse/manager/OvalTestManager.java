@@ -27,4 +27,8 @@ public class OvalTestManager {
     public boolean exists(String testId) {
         return testsMap.containsKey(testId);
     }
+
+    public void add(TestType testType) {
+        testsMap.put(testType.getId(), testType);
+    }
 }

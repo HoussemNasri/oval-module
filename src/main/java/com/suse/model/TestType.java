@@ -184,4 +184,8 @@ public class TestType {
     public void setStateOperator(LogicOperatorType stateOperator) {
         this.stateOperator = stateOperator;
     }
+
+    public void setStates(List<StateRefType> states) {
+        this.states = states;
+    }
 }

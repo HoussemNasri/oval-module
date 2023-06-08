@@ -92,8 +92,7 @@ public class TestEvaluator {
 
                     int comparison = packageOnSystemEVR.compareTo(packageOnOvalEVR);
 
-                    System.out.println(packageOnSystemEVR);
-                    System.out.println(comparison);
+                    System.out.println("Comparison between " + packageOnSystemEVR + " and " + packageOnOvalEVR + " yielded value " + comparison);
                     System.out.println("------");
 
                     return (comparison == 0 && operation == OperationEnumeration.EQUALS) ||

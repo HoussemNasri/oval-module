@@ -26,4 +26,8 @@ public class OvalStateManager {
     public boolean exists(String stateId) {
         return statesMap.containsKey(stateId);
     }
+
+    public void add(StateType state) {
+        statesMap.put(state.getId(), state);
+    }
 }

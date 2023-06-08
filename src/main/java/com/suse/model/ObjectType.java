@@ -112,7 +112,7 @@ public class ObjectType {
         return name;
     }
 
-    public void setName(String name) {
+    public void setPackageName(String name) {
         this.name = name;
     }
 
