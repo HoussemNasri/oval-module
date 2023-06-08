@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class TestEvaluator {
     private final OvalTestManager ovalTestManager;
@@ -32,50 +33,104 @@ public class TestEvaluator {
         }
 
         ObjectType object = ovalObjectManager.get(test.getObject().getObjectRef());
-        for (StateRefType stateRef : test.getState()) {
-            StateType state = ovalStateManager.get(stateRef.getStateRef());
-            System.out.println(state.getId());
-            System.out.println("Priting evr: " + state.getEvr().getValue());
+        List<UyuniAPI.CVEPatchStatus> packageVersionsOnSystem = listPackageVersionsInstalledOnSystem(object.getPackageName());
+        long packageVersionsCount = packageVersionsOnSystem.size();
 
-            //TODO: update!
-            return checkPackageAgainstState(object, state);
+        ExistenceEnum checkExistence = test.getCheckExistence();
+        switch (checkExistence) {
+            case NONE_EXIST:
+                if (packageVersionsCount != 0) {
+                    return false;
+                }
+                break;
+            case ONLY_ONE_EXISTS:
+                if (packageVersionsCount != 1) {
+                    return false;
+                }
+                break;
+            // We have only one component under consideration that is the package name,
+            // thus 'all_exist'and 'at_least_one_exists' are logically equivalent.
+            case ALL_EXIST:
+            case AT_LEAST_ONE_EXISTS:
+                if (packageVersionsCount < 1) {
+                    return false;
+                }
+                break;
+        }
+
+        List<StateRefType> ovalStates = test.getStates();
+        if (ovalStates.isEmpty()) {
+            return true;
+        }
+
+        System.out.println(ovalStates.get(0).getStateRef());
+        System.out.println("Operation: " + ovalStateManager.get(ovalStates.get(0).getStateRef()).getEvr().getOperation());
+        System.out.println("Datatype: " + ovalStateManager.get(ovalStates.get(0).getStateRef()).getEvr().getDatatype());
+        System.out.println("Value: " + ovalStateManager.get(ovalStates.get(0).getStateRef()).getEvr().getValue());
+
+        List<Boolean> stateEvaluations = ovalStates.stream()
+                .map(StateRefType::getStateRef)
+                .map(ovalStateManager::get)
+                .map(state -> evaluatePackageState(packageVersionsOnSystem, state)).collect(Collectors.toList());
+
+        return combineStateEvaluations(test.getStateOperator(), stateEvaluations);
+    }
+
+    private boolean evaluatePackageState(List<UyuniAPI.CVEPatchStatus> packageVersionsOnSystem, StateType expectedState) {
+        return packageVersionsOnSystem.stream()
+                .map(UyuniAPI.CVEPatchStatus::getPackageEvr)
+                .anyMatch(evrOptional -> {
+                    if (evrOptional.isEmpty()) {
+                        return false;
+                    }
+
+                    EVRType evrType = expectedState.getEvr();
+                    OperationEnumeration operation = evrType.getOperation();
+                    UyuniAPI.PackageEvr packageOnSystemEVR = evrOptional.get();
+                    UyuniAPI.PackageEvr packageOnOvalEVR =
+                            UyuniAPI.PackageEvr.parsePackageEvr(toPackageType(evrType.getDatatype()), evrType.getValue());
+
+                    int comparison = packageOnSystemEVR.compareTo(packageOnOvalEVR);
+
+                    System.out.println(packageOnSystemEVR);
+                    System.out.println(comparison);
+                    System.out.println("------");
+
+                    return (comparison == 0 && operation == OperationEnumeration.EQUALS) ||
+                            (comparison != 0 && operation == OperationEnumeration.NOT_EQUAL) ||
+                            (comparison > 0 && operation == OperationEnumeration.GREATER_THAN) ||
+                            (comparison >= 0 && operation == OperationEnumeration.GREATER_THAN_OR_EQUAL) ||
+                            (comparison < 0 && operation == OperationEnumeration.LESS_THAN) ||
+                            (comparison <= 0 && operation == OperationEnumeration.LESS_THAN_OR_EQUAL);
+                });
+    }
+
+    private boolean evaluatePackageEVR() {
+        return false;
+    }
+
+    private boolean evaluatePackageArch() {
+        return false;
+    }
+
+    private boolean combineStateEvaluations(LogicOperatorType stateOperator, List<Boolean> stateEvaluations) {
+        switch (stateOperator) {
+            case AND:
+                return stateEvaluations.stream().allMatch(Boolean::booleanValue);
+            case OR:
+                return stateEvaluations.stream().anyMatch(Boolean::booleanValue);
+            case XOR:
+                return stateEvaluations.stream().reduce((a, b) -> a ^ b).orElse(false);
+            case ONE:
+                return stateEvaluations.stream().filter(Boolean::booleanValue).count() == 1L;
         }
         return false;
     }
 
-    /*
-    * 	<rpminfo_test id="oval:org.opensuse.security:tst:2009685834" version="1" comment="libsoftokn3-hmac-32bit is &lt;3.68.3-150400.1.7" check="at least one" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
-		    <object object_ref="oval:org.opensuse.security:obj:2009038248"/>
-		    <state state_ref="oval:org.opensuse.security:ste:2009161445"/>
-	    </rpminfo_test>
-
-	    <rpminfo_object id="oval:org.opensuse.security:obj:2009038248" version="1" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
-		    <name>libsoftokn3-hmac-32bit</name>
-	    </rpminfo_object>
-
-        <rpminfo_state id="oval:org.opensuse.security:ste:2009161445" version="1" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux">
-            <evr datatype="evr_string" operation="less than">0:3.68.3-150400.1.7</evr>
-        </rpminfo_state>
-
-    * */
-
-    private boolean checkPackageAgainstState(ObjectType packageObject, StateType expectedState) {
-        String packageName = packageObject.getName();
-
+    private List<UyuniAPI.CVEPatchStatus> listPackageVersionsInstalledOnSystem(String packageName) {
         return systemCvePatchStatusList.stream()
                 .filter(cvePatchStatus -> Optional.ofNullable(packageName).equals(cvePatchStatus.getPackageName()))
-                .map(UyuniAPI.CVEPatchStatus::getPackageEvr)
-                .anyMatch(evrOpt -> {
-                    System.out.println("Found package!");
-                    if (evrOpt.isPresent()) {
-                        EVRType evrType = expectedState.getEvr();
-                        UyuniAPI.PackageEvr packageOnSystemEVR = evrOpt.get();
-                        UyuniAPI.PackageEvr packageOnOvalEVR = UyuniAPI.PackageEvr.parsePackageEvr(toPackageType(evrType.getDatatype()), evrType.getValue());
-
-                        return packageOnSystemEVR.compareTo(packageOnOvalEVR) < 0;
-                    }
-                    return false;
-                });
+                .collect(Collectors.toList());
     }
 
     private UyuniAPI.PackageType toPackageType(EVRDataTypeEnum evrDataTypeEnum) {

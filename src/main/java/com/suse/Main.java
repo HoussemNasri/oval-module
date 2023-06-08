@@ -4,11 +4,8 @@ import com.suse.manager.OvalObjectManager;
 import com.suse.manager.OvalStateManager;
 import com.suse.manager.OvalTestManager;
 import com.suse.model.OvalRootType;
-import com.suse.model.linux.RpminfoObject;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -36,8 +33,9 @@ public class Main {
         );
 
         System.out.println("Evaluation#1 Result: " + testEvaluator.evaluate("oval:org.opensuse.security:tst:2009685834"));
+        System.out.println("Evaluation#2 Result: " + testEvaluator.evaluate("oval:org.opensuse.security:tst:2009480715"));
 
-        System.out.println(ovalObjectManager.get("oval:org.opensuse.security:obj:2009042550").getName());
+        System.out.println(ovalObjectManager.get("oval:org.opensuse.security:obj:2009042550").getPackageName());
         System.out.println(ovalObjectManager.get("oval:org.opensuse.security:obj:2009042550").isDpkg());
         System.out.println(ovalObjectManager.get("oval:org.opensuse.security:obj:2009042550").isRpm());
     }
