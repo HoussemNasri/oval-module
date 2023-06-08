@@ -1,6 +1,6 @@
 package com.suse.manager;
 
-import com.suse.model.ObjectType;
+import com.suse.ovaltypes.ObjectType;
 
 import java.util.HashMap;
 import java.util.List;

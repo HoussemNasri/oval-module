@@ -1,7 +1,7 @@
 package com.suse.manager;
 
 
-import com.suse.model.TestType;
+import com.suse.ovaltypes.TestType;
 
 import java.util.HashMap;
 import java.util.List;

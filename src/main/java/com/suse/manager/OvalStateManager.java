@@ -1,6 +1,6 @@
 package com.suse.manager;
 
-import com.suse.model.StateType;
+import com.suse.ovaltypes.StateType;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.suse.db;
 
-import com.suse.model.FamilyEnum;
+import com.suse.ovaltypes.FamilyEnum;
 
 import javax.persistence.*;
 import java.io.Serializable;

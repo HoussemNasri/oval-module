@@ -1,6 +1,6 @@
 package com.suse.db;
 
-import com.suse.model.DefinitionClassEnum;
+import com.suse.ovaltypes.DefinitionClassEnum;
 
 import javax.persistence.*;
 import java.util.Set;

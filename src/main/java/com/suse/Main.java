@@ -3,7 +3,7 @@ package com.suse;
 import com.suse.manager.OvalObjectManager;
 import com.suse.manager.OvalStateManager;
 import com.suse.manager.OvalTestManager;
-import com.suse.model.OvalRootType;
+import com.suse.ovaltypes.OvalRootType;
 
 import java.io.File;
 import java.util.stream.Collectors;
