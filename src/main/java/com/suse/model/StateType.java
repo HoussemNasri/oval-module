@@ -34,14 +34,23 @@ public class StateType {
     protected String comment;
     @XmlAttribute(name = "deprecated")
     protected Boolean deprecated;
+    /**
+     * This represents the epoch, version, and release fields as a single version string. It has the form "EPOCH:VERSION-RELEASE".
+     */
     @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux")
     protected EVRType evr;
 
+    /**
+     * This is the DPKG package name to check.
+     */
     @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux")
     protected String name;
 
+    /**
+     * This is the architecture for which the package was built, like : i386, ppc, sparc, noarch.
+     */
     @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux")
-    protected String arch;
+    protected ArchType arch;
 
 
     /**
@@ -128,5 +137,21 @@ public class StateType {
 
     public void setEvr(EVRType evr) {
         this.evr = evr;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ArchType getArch() {
+        return arch;
+    }
+
+    public void setArch(ArchType arch) {
+        this.arch = arch;
     }
 }
