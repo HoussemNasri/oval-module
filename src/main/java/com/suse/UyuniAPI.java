@@ -15,69 +15,28 @@ public class UyuniAPI {
     public static Stream<CVEPatchStatus> listSystemsByPatchStatus(User user, String cveIdentifier) {
 
         return Stream.of(
-                new CVEPatchStatus(1, "", Optional.empty(), "", Optional.of(55L),
-                        Optional.of("libsoftokn3-hmac-32bit"), Optional.of(PackageEvr.parseRpm("0:3.68.3-150400.1.7")),
-                        true, Optional.empty(), "", "", false,
-                        Optional.empty())
+                new CVEPatchStatus(1, Optional.of("libsoftokn3-hmac-32bit"),
+                        Optional.of(PackageEvr.parseRpm("0:3.68.3-150400.1.7")), true)
         );
     }
 
     public static class CVEPatchStatus {
 
         private final long systemId;
-        private final String systemName;
-        private final Optional<Long> errataId;
-        private final String errataAdvisory;
-        private final Optional<Long> packageId;
         private final Optional<String> packageName;
         private final Optional<PackageEvr> packageEvr;
         private final boolean packageInstalled;
-        private final Optional<Long> channelId;
-        private final String channelName;
-        private final String channelLabel;
-        private final boolean channelAssigned;
-        private final Optional<Long> channelRank;
 
-        CVEPatchStatus(long systemIdIn, String systemNameIn,
-                       Optional<Long> errataIdIn, String errataAdvisoryIn,
-                       Optional<Long> packageIdIn, Optional<String> packageNameIn,
-                       Optional<PackageEvr> evrIn, boolean packageInstalledIn,
-                       Optional<Long> channelIdIn, String channelNameIn,
-                       String channelLabelIn, boolean channelAssignedIn,
-                       Optional<Long> channelRankIn) {
+        CVEPatchStatus(long systemIdIn, Optional<String> packageNameIn,
+                       Optional<PackageEvr> evrIn, boolean packageInstalledIn) {
             this.systemId = systemIdIn;
-            this.systemName = systemNameIn;
-            this.errataId = errataIdIn;
-            this.errataAdvisory = errataAdvisoryIn;
-            this.packageId = packageIdIn;
             this.packageName = packageNameIn;
             this.packageInstalled = packageInstalledIn;
-            this.channelId = channelIdIn;
-            this.channelName = channelNameIn;
-            this.channelLabel = channelLabelIn;
-            this.channelAssigned = channelAssignedIn;
-            this.channelRank = channelRankIn;
             this.packageEvr = evrIn;
         }
 
         public long getSystemId() {
             return systemId;
-        }
-
-        public String getSystemName() {
-            return systemName;
-        }
-
-        public Optional<Long> getErrataId() {
-            return errataId;
-        }
-
-        public String getErrataAdvisory() {
-            return errataAdvisory;
-        }
-
-        public Optional<Long> getPackageId() {
-            return packageId;
         }
 
         public Optional<String> getPackageName() {
@@ -90,26 +49,6 @@ public class UyuniAPI {
 
         public boolean isPackageInstalled() {
             return packageInstalled;
-        }
-
-        public boolean isChannelAssigned() {
-            return channelAssigned;
-        }
-
-        public Optional<Long> getChannelId() {
-            return channelId;
-        }
-
-        public String getChannelName() {
-            return channelName;
-        }
-
-        public String getChannelLabel() {
-            return channelLabel;
-        }
-
-        public Optional<Long> getChannelRank() {
-            return channelRank;
         }
     }
 
