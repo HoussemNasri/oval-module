@@ -1,7 +1,6 @@
 package com.suse;
 
 import java.util.Comparator;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -30,15 +29,21 @@ public class UyuniAPI {
 
         private final long systemId;
         private final Optional<String> packageName;
+        private final Optional<String> packageArch;
         private final Optional<PackageEvr> packageEvr;
         private final boolean packageInstalled;
 
         CVEPatchStatus(long systemIdIn, Optional<String> packageNameIn,
-                       Optional<PackageEvr> evrIn, boolean packageInstalledIn) {
+                       Optional<PackageEvr> evrIn, boolean packageInstalledIn, Optional<String> packageArch) {
             this.systemId = systemIdIn;
             this.packageName = packageNameIn;
             this.packageInstalled = packageInstalledIn;
             this.packageEvr = evrIn;
+            this.packageArch = packageArch;
+        }
+
+        CVEPatchStatus(long systemIdIn, Optional<String> packageNameIn, Optional<PackageEvr> evrIn, boolean packageInstalledIn) {
+            this(systemIdIn, packageNameIn, evrIn, packageInstalledIn, Optional.of("noarch"));
         }
 
         public long getSystemId() {
@@ -55,6 +60,10 @@ public class UyuniAPI {
 
         public boolean isPackageInstalled() {
             return packageInstalled;
+        }
+
+        public Optional<String> getPackageArch() {
+            return packageArch;
         }
     }
 

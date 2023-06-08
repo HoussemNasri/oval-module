@@ -4,7 +4,6 @@ import com.suse.manager.OvalObjectManager;
 import com.suse.manager.OvalStateManager;
 import com.suse.manager.OvalTestManager;
 import com.suse.model.*;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

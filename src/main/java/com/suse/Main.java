@@ -38,6 +38,9 @@ public class Main {
         System.out.println(ovalObjectManager.get("oval:org.opensuse.security:obj:2009042550").getPackageName());
         System.out.println(ovalObjectManager.get("oval:org.opensuse.security:obj:2009042550").isDpkg());
         System.out.println(ovalObjectManager.get("oval:org.opensuse.security:obj:2009042550").isRpm());
+
+        System.out.println(ovalStateMAnager.get("oval:org.opensuse.security:ste:2009174462").getArch().getValue());
+        System.out.println(ovalStateMAnager.get("oval:org.opensuse.security:ste:2009174462").getArch().getOperation());
     }
 
     public static void main(String[] args) throws InterruptedException {
