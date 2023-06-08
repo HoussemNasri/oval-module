@@ -16,7 +16,13 @@ public class UyuniAPI {
 
         return Stream.of(
                 new CVEPatchStatus(1, Optional.of("libsoftokn3-hmac-32bit"),
-                        Optional.of(PackageEvr.parseRpm("0:3.68.3-150400.1.7")), true)
+                        Optional.of(PackageEvr.parseRpm("0:3.68.3-150400.1.7")), true),
+                new CVEPatchStatus(1, Optional.of("libsha1detectcoll1"),
+                        Optional.of(PackageEvr.parseRpm("0:1.0.3-2.18")), true),
+                new CVEPatchStatus(1, Optional.of("libsha1detectcoll1"),
+                        Optional.of(PackageEvr.parseRpm("0:1.0.0-2.18")), true),
+                new CVEPatchStatus(1, Optional.of("libsha1detectcoll1"),
+                        Optional.of(PackageEvr.parseRpm("0:1.0.10-2.18")), true)
         );
     }
 
@@ -187,6 +193,7 @@ public class UyuniAPI {
         @Override
         public String toString() {
             StringBuilder builder = new StringBuilder();
+            builder.append(getEpoch()).append(':');
            /* if (StringUtils.isNumeric(getEpoch())) {
                 builder.append(getEpoch()).append(':');
             }*/
