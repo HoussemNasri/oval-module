@@ -7,8 +7,10 @@ import javax.xml.bind.annotation.*;
 public class EVRType {
     @XmlValue
     private String value;
-    @XmlAttribute(name = "datatype", namespace = "http://oval.mitre.org/XMLSchema/oval-common-5")
+    @XmlAttribute(name = "datatype")
     private EVRDataTypeEnum datatype;
+    @XmlAttribute(name = "operation", required = true)
+    private OperationEnumeration operation;
 
     public String getValue() {
         return value;
@@ -24,5 +26,13 @@ public class EVRType {
 
     public void setDatatype(EVRDataTypeEnum datatype) {
         this.datatype = datatype;
+    }
+
+    public OperationEnumeration getOperation() {
+        return operation;
+    }
+
+    public void setOperation(OperationEnumeration operation) {
+        this.operation = operation;
     }
 }
