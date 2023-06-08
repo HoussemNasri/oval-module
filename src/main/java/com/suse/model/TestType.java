@@ -39,6 +39,8 @@ public class TestType {
     protected BigInteger version;
     @XmlAttribute(name = "check_existence")
     protected ExistenceEnum checkExistence;
+    @XmlAttribute(name = "state_operator")
+    protected LogicOperatorType stateOperator;
     @XmlAttribute(name = "check", required = true)
     protected CheckEnum check;
     @XmlAttribute(name = "comment", required = true)
@@ -52,8 +54,8 @@ public class TestType {
      */
     @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux", required = true)
     protected ObjectRefType object;
-    @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux")
-    protected List<StateRefType> state;
+    @XmlElement(name = "state", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux")
+    protected List<StateRefType> states;
 
     /**
      * Gets the value of the id property.
@@ -164,12 +166,22 @@ public class TestType {
     /**
      * Gets the value of the state property.
      */
-    public List<StateRefType> getState() {
-        if (state == null) {
-            state = new ArrayList<StateRefType>();
+    public List<StateRefType> getStates() {
+        if (states == null) {
+            states = new ArrayList<StateRefType>();
         }
-        return this.state;
+        return this.states;
     }
 
+    public LogicOperatorType getStateOperator() {
+        if (stateOperator == null) {
+            return LogicOperatorType.AND;
+        } else {
+            return stateOperator;
+        }
+    }
 
+    public void setStateOperator(LogicOperatorType stateOperator) {
+        this.stateOperator = stateOperator;
+    }
 }
