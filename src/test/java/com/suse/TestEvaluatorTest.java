@@ -30,6 +30,7 @@ public class TestEvaluatorTest {
     TestType t7;
     TestType t8;
     TestType t9;
+    TestType t10;
 
     @BeforeEach
     void setUp() {
@@ -71,6 +72,11 @@ public class TestEvaluatorTest {
                 .withArch("aarch64", OperationEnumeration.EQUALS)
                 .build();
 
+        StateType s5 = new StateTypeBuilder("ste:5")
+                .withEVR("0:3.68.3-150400.1.7", OperationEnumeration.GREATER_THAN)
+                .withArch("(aarch64|noarch)", OperationEnumeration.PATTERN_MATCH)
+                .build();
+
         t1 = newTestType("tst:1", o1, s1);
         t2 = newTestType("tst:2", o1, s2);
         t3 = newTestType("tst:3", o1, s3);
@@ -80,6 +86,7 @@ public class TestEvaluatorTest {
         t7 = newTestType("tst:7", o1, s4);
         t8 = newTestType("tst:8", o2, s4);
         t9 = newTestType("tst:9", o3, s4);
+        t10 = newTestType("tst:10", o2, s5);
 
         testEvaluator = new TestEvaluator(ovalTestManager, ovalObjectManager, ovalStateManager, systemCvePatchStatusList);
     }
@@ -124,7 +131,7 @@ public class TestEvaluatorTest {
     }
 
     /**
-     * Return True if both evr and arch states are correct
+     * Tests when both arch and evr properties satisfied
      */
     @Test
     void testT8() {
@@ -132,11 +139,19 @@ public class TestEvaluatorTest {
     }
 
     /**
-     * Return False if arch is the same but evr is not satisfied
+     * Tests when arch property is satisfied but evr is not satisfied
      */
     @Test
     void testT9() {
         assertFalse(testEvaluator.evaluate(t9.getId()));
+    }
+
+    /**
+     * Test when arch is a pattern
+     */
+    @Test
+    void testT10() {
+        assertTrue(testEvaluator.evaluate(t10.getId()));
     }
 
     TestType newTestType(String id, ObjectType object, List<StateType> states) {
