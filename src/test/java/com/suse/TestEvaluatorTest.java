@@ -31,6 +31,7 @@ public class TestEvaluatorTest {
     TestType t8;
     TestType t9;
     TestType t10;
+    TestType t11;
 
     @BeforeEach
     void setUp() {
@@ -48,12 +49,15 @@ public class TestEvaluatorTest {
                 new UyuniAPI.CVEPatchStatus(1, Optional.of("libsha1detectcoll1"),
                         Optional.of(UyuniAPI.PackageEvr.parseRpm("0:3.68.4-150400.1.7")), true, Optional.of("aarch64")),
                 new UyuniAPI.CVEPatchStatus(1, Optional.of("postgresql12-plperl"),
-                        Optional.of(UyuniAPI.PackageEvr.parseRpm("0:3.68.3-150400.1.7")), true, Optional.of("aarch64"))
+                        Optional.of(UyuniAPI.PackageEvr.parseRpm("0:3.68.3-150400.1.7")), true, Optional.of("aarch64")),
+                new UyuniAPI.CVEPatchStatus(1, Optional.of("sles-release"),
+                        Optional.of(UyuniAPI.PackageEvr.parseRpm("0:15.4-0")), true)
         );
 
         ObjectType o1 = newObjectType("obj:1", "libsoftokn3-hmac-32bit");
         ObjectType o2 = newObjectType("obj:2", "libsha1detectcoll1");
         ObjectType o3 = newObjectType("obj:3", "postgresql12-plperl");
+        ObjectType o4 = newObjectType("obj:4", "sles-release");
 
         StateType s1 = new StateTypeBuilder("ste:1")
                 .withEVR("0:3.68.3-150400.1.7", OperationEnumeration.LESS_THAN)
@@ -77,6 +81,10 @@ public class TestEvaluatorTest {
                 .withArch("(aarch64|noarch)", OperationEnumeration.PATTERN_MATCH)
                 .build();
 
+        StateType s6 = new StateTypeBuilder("ste:6")
+                .withVersion("15.4", OperationEnumeration.EQUALS)
+                .build();
+
         t1 = newTestType("tst:1", o1, s1);
         t2 = newTestType("tst:2", o1, s2);
         t3 = newTestType("tst:3", o1, s3);
@@ -87,6 +95,7 @@ public class TestEvaluatorTest {
         t8 = newTestType("tst:8", o2, s4);
         t9 = newTestType("tst:9", o3, s4);
         t10 = newTestType("tst:10", o2, s5);
+        t11 = newTestType("tst:11", o4, s6);
 
         testEvaluator = new TestEvaluator(ovalTestManager, ovalObjectManager, ovalStateManager, systemCvePatchStatusList);
     }
@@ -154,6 +163,11 @@ public class TestEvaluatorTest {
         assertTrue(testEvaluator.evaluate(t10.getId()));
     }
 
+    @Test
+    void testT11() {
+        assertTrue(testEvaluator.evaluate(t11.getId()));
+    }
+
     TestType newTestType(String id, ObjectType object, List<StateType> states) {
         ObjectRefType objectRefType = new ObjectRefType();
         objectRefType.setObjectRef(object.getId());
@@ -215,6 +229,16 @@ public class TestEvaluatorTest {
             archType.setOperation(operation);
 
             state.setPackageArch(archType);
+
+            return this;
+        }
+
+        public StateTypeBuilder withVersion(String version, OperationEnumeration operation) {
+            VersionType versionType = new VersionType();
+            versionType.setValue(version);
+            versionType.setOperation(operation);
+
+            state.setPackageVersion(versionType);
 
             return this;
         }

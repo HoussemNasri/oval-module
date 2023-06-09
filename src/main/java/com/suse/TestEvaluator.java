@@ -60,12 +60,11 @@ public class TestEvaluator {
             return true;
         }
 
-        System.out.println(ovalStates.get(0).getStateRef());
-        System.out.println("Operation: " + ovalStateManager.get(ovalStates.get(0).getStateRef()).getPackageEVR().getOperation());
-        System.out.println("Datatype: " + ovalStateManager.get(ovalStates.get(0).getStateRef()).getPackageEVR().getDatatype());
-        System.out.println("Value: " + ovalStateManager.get(ovalStates.get(0).getStateRef()).getPackageEVR().getValue());
-
-        List<Boolean> stateEvaluations = ovalStates.stream().map(StateRefType::getStateRef).map(ovalStateManager::get).map(state -> evaluatePackageState(packageVersionsOnSystem, state)).collect(Collectors.toList());
+        List<Boolean> stateEvaluations = ovalStates.stream()
+                .map(StateRefType::getStateRef)
+                .map(ovalStateManager::get)
+                .map(state -> evaluatePackageState(packageVersionsOnSystem, state))
+                .collect(Collectors.toList());
 
         return combineBooleans(test.getStateOperator(), stateEvaluations);
     }
