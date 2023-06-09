@@ -83,7 +83,7 @@ public class TestEvaluator {
                         return false;
                     }
 
-                    List<Boolean> stateEntitesEvaluations = new ArrayList<>();
+                    List<Boolean> stateEntitiesEvaluations = new ArrayList<>();
 
                     EVRType expectedEvr = expectedState.getEvr();
                     if (expectedEvr != null) {
@@ -93,7 +93,7 @@ public class TestEvaluator {
 
                         int evrComparison = packageOnSystemEVR.compareTo(packageOnOvalEVR);
 
-                        stateEntitesEvaluations.add(checkPackageEVR(evrComparison, expectedEvr.getOperation()));
+                        stateEntitiesEvaluations.add(checkPackageEVR(evrComparison, expectedEvr.getOperation()));
 
                         System.out.println("Comparison between " + packageOnSystemEVR + " and " + packageOnOvalEVR + " yielded value " + evrComparison);
                         System.out.println("------");
@@ -102,12 +102,12 @@ public class TestEvaluator {
 
                     ArchType expectedArch = expectedState.getArch();
                     if (expectedArch != null) {
-                        stateEntitesEvaluations.add(
+                        stateEntitiesEvaluations.add(
                                 checkPackageArch(cvePatchStatus.getPackageArch().orElse(""), expectedArch.getValue(),
                                         expectedArch.getOperation()));
                     }
 
-                    return combineBooleans(expectedState.getOperator(), stateEntitesEvaluations);
+                    return combineBooleans(expectedState.getOperator(), stateEntitiesEvaluations);
                 });
     }
 
