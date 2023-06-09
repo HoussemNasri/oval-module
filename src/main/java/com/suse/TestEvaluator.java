@@ -65,59 +65,51 @@ public class TestEvaluator {
         System.out.println("Datatype: " + ovalStateManager.get(ovalStates.get(0).getStateRef()).getPackageEVR().getDatatype());
         System.out.println("Value: " + ovalStateManager.get(ovalStates.get(0).getStateRef()).getPackageEVR().getValue());
 
-        List<Boolean> stateEvaluations = ovalStates.stream()
-                .map(StateRefType::getStateRef)
-                .map(ovalStateManager::get)
-                .map(state -> evaluatePackageState(packageVersionsOnSystem, state))
-                .collect(Collectors.toList());
+        List<Boolean> stateEvaluations = ovalStates.stream().map(StateRefType::getStateRef).map(ovalStateManager::get).map(state -> evaluatePackageState(packageVersionsOnSystem, state)).collect(Collectors.toList());
 
         return combineBooleans(test.getStateOperator(), stateEvaluations);
     }
 
     private boolean evaluatePackageState(List<UyuniAPI.CVEPatchStatus> packageVersionsOnSystem, StateType expectedState) {
-        return packageVersionsOnSystem.stream()
-                .anyMatch(cvePatchStatus -> {
-                    Optional<UyuniAPI.PackageEvr> evrOptional = cvePatchStatus.getPackageEvr();
+        return packageVersionsOnSystem.stream().anyMatch(cvePatchStatus -> {
+            List<Boolean> stateEntitiesEvaluations = new ArrayList<>();
 
-                    if (evrOptional.isEmpty()) {
-                        return false;
-                    }
+            EVRType expectedEvr = expectedState.getPackageEVR();
+            if (expectedEvr != null) {
+                cvePatchStatus.getPackageEvr().ifPresent(packageOnSystemEVR -> {
+                    UyuniAPI.PackageEvr packageOnOvalEVR = UyuniAPI.PackageEvr
+                            .parsePackageEvr(toPackageType(expectedEvr.getDatatype()), expectedEvr.getValue());
 
-                    List<Boolean> stateEntitiesEvaluations = new ArrayList<>();
+                    int evrComparison = packageOnSystemEVR.compareTo(packageOnOvalEVR);
 
-                    EVRType expectedEvr = expectedState.getPackageEVR();
-                    if (expectedEvr != null) {
-                        UyuniAPI.PackageEvr packageOnSystemEVR = evrOptional.get();
-                        UyuniAPI.PackageEvr packageOnOvalEVR =
-                                UyuniAPI.PackageEvr.parsePackageEvr(toPackageType(expectedEvr.getDatatype()), expectedEvr.getValue());
+                    stateEntitiesEvaluations.add(checkPackageEVR(evrComparison, expectedEvr.getOperation()));
 
-                        int evrComparison = packageOnSystemEVR.compareTo(packageOnOvalEVR);
-
-                        stateEntitiesEvaluations.add(checkPackageEVR(evrComparison, expectedEvr.getOperation()));
-
-                        System.out.println("Comparison between " + packageOnSystemEVR + " and " + packageOnOvalEVR + " yielded value " + evrComparison);
-                        System.out.println("------");
-                    }
-
-
-                    ArchType expectedArch = expectedState.getPackageArch();
-                    if (expectedArch != null) {
-                        stateEntitiesEvaluations.add(
-                                checkPackageArch(cvePatchStatus.getPackageArch().orElse(""), expectedArch.getValue(),
-                                        expectedArch.getOperation()));
-                    }
-
-                    return combineBooleans(expectedState.getOperator(), stateEntitiesEvaluations);
+                    System.out.println("Comparison between " + packageOnSystemEVR + " and " + packageOnOvalEVR + " yielded value " + evrComparison);
+                    System.out.println("------");
                 });
+            }
+
+
+            ArchType expectedArch = expectedState.getPackageArch();
+            if (expectedArch != null) {
+                stateEntitiesEvaluations.add(checkPackageArch(cvePatchStatus.getPackageArch().orElse(""),
+                        expectedArch.getValue(), expectedArch.getOperation()));
+            }
+
+            VersionType expectedVersion = expectedState.getPackageVersion();
+            if (expectedVersion != null) {
+                cvePatchStatus.getPackageEvr().ifPresent(packageOnSystemEVR -> {
+                    stateEntitiesEvaluations.add(checkPackageVersion(packageOnSystemEVR.getVersion(),
+                            expectedVersion.getValue(), expectedVersion.getOperation()));
+                });
+            }
+
+            return combineBooleans(expectedState.getOperator(), stateEntitiesEvaluations);
+        });
     }
 
     private boolean checkPackageEVR(int evrComparisonResult, OperationEnumeration operation) {
-        return (evrComparisonResult == 0 && operation == OperationEnumeration.EQUALS) ||
-                (evrComparisonResult != 0 && operation == OperationEnumeration.NOT_EQUAL) ||
-                (evrComparisonResult > 0 && operation == OperationEnumeration.GREATER_THAN) ||
-                (evrComparisonResult >= 0 && operation == OperationEnumeration.GREATER_THAN_OR_EQUAL) ||
-                (evrComparisonResult < 0 && operation == OperationEnumeration.LESS_THAN) ||
-                (evrComparisonResult <= 0 && operation == OperationEnumeration.LESS_THAN_OR_EQUAL);
+        return (evrComparisonResult == 0 && operation == OperationEnumeration.EQUALS) || (evrComparisonResult != 0 && operation == OperationEnumeration.NOT_EQUAL) || (evrComparisonResult > 0 && operation == OperationEnumeration.GREATER_THAN) || (evrComparisonResult >= 0 && operation == OperationEnumeration.GREATER_THAN_OR_EQUAL) || (evrComparisonResult < 0 && operation == OperationEnumeration.LESS_THAN) || (evrComparisonResult <= 0 && operation == OperationEnumeration.LESS_THAN_OR_EQUAL);
     }
 
     private boolean checkPackageArch(String systemPackageArch, String expectedArch, OperationEnumeration operation) {
@@ -133,10 +125,16 @@ public class TestEvaluator {
         }
     }
 
+    private boolean checkPackageVersion(String systemPackageVersion, String expectedVersion, OperationEnumeration operation) {
+        if (!(operation == OperationEnumeration.EQUALS || operation == OperationEnumeration.NOT_EQUAL)) {
+            throw new IllegalArgumentException("Operation '" + operation + "' is not supported for the version state entity");
+        }
+
+        return systemPackageVersion.equals(expectedVersion);
+    }
+
     private List<UyuniAPI.CVEPatchStatus> listPackageVersionsInstalledOnSystem(String packageName) {
-        return systemCvePatchStatusList.stream()
-                .filter(cvePatchStatus -> Optional.ofNullable(packageName).equals(cvePatchStatus.getPackageName()))
-                .collect(Collectors.toList());
+        return systemCvePatchStatusList.stream().filter(cvePatchStatus -> Optional.ofNullable(packageName).equals(cvePatchStatus.getPackageName())).collect(Collectors.toList());
     }
 
     private UyuniAPI.PackageType toPackageType(EVRDataTypeEnum evrDataTypeEnum) {
