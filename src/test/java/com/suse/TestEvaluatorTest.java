@@ -27,6 +27,9 @@ public class TestEvaluatorTest {
     TestType t4;
     TestType t5;
     TestType t6;
+    TestType t7;
+    TestType t8;
+    TestType t9;
 
     @BeforeEach
     void setUp() {
@@ -42,17 +45,31 @@ public class TestEvaluatorTest {
                 new UyuniAPI.CVEPatchStatus(1, Optional.of("libsha1detectcoll1"),
                         Optional.of(UyuniAPI.PackageEvr.parseRpm("0:3.68.3-150400.1.7")), true),
                 new UyuniAPI.CVEPatchStatus(1, Optional.of("libsha1detectcoll1"),
-                        Optional.of(UyuniAPI.PackageEvr.parseRpm("0:3.68.4-150400.1.7")), true)
+                        Optional.of(UyuniAPI.PackageEvr.parseRpm("0:3.68.4-150400.1.7")), true, Optional.of("aarch64")),
+                new UyuniAPI.CVEPatchStatus(1, Optional.of("postgresql12-plperl"),
+                        Optional.of(UyuniAPI.PackageEvr.parseRpm("0:3.68.3-150400.1.7")), true, Optional.of("aarch64"))
         );
 
         ObjectType o1 = newObjectType("obj:1", "libsoftokn3-hmac-32bit");
         ObjectType o2 = newObjectType("obj:2", "libsha1detectcoll1");
+        ObjectType o3 = newObjectType("obj:3", "postgresql12-plperl");
 
-        StateType s1 = newStateType("ste:1", "0:3.68.3-150400.1.7", OperationEnumeration.LESS_THAN);
-        StateType s2 = newStateType("ste:2", "0:3.68.3-150400.1.7", OperationEnumeration.GREATER_THAN);
-        StateType s3 = newStateType("ste:3", "0:3.68.3-150400.1.7", OperationEnumeration.EQUALS);
+        StateType s1 = new StateTypeBuilder("ste:1")
+                .withEVR("0:3.68.3-150400.1.7", OperationEnumeration.LESS_THAN)
+                .build();
 
-        StateType s4 = newStateType("ste:4", "0:3.68.3-150400.1.7", OperationEnumeration.NOT_EQUAL);
+        StateType s2 = new StateTypeBuilder("ste:2")
+                .withEVR("0:3.68.3-150400.1.7", OperationEnumeration.GREATER_THAN)
+                .build();
+
+        StateType s3 = new StateTypeBuilder("ste:3")
+                .withEVR("0:3.68.3-150400.1.7", OperationEnumeration.EQUALS)
+                .build();
+
+        StateType s4 = new StateTypeBuilder("ste:4")
+                .withEVR("0:3.68.3-150400.1.7", OperationEnumeration.GREATER_THAN)
+                .withArch("aarch64", OperationEnumeration.EQUALS)
+                .build();
 
         t1 = newTestType("tst:1", o1, s1);
         t2 = newTestType("tst:2", o1, s2);
@@ -60,6 +77,9 @@ public class TestEvaluatorTest {
         t4 = newTestType("tst:4", o2, s1);
         t5 = newTestType("tst:5", o2, s2);
         t6 = newTestType("tst:6", o2, s3);
+        t7 = newTestType("tst:7", o1, s4);
+        t8 = newTestType("tst:8", o2, s4);
+        t9 = newTestType("tst:9", o3, s4);
 
         testEvaluator = new TestEvaluator(ovalTestManager, ovalObjectManager, ovalStateManager, systemCvePatchStatusList);
     }
@@ -96,6 +116,27 @@ public class TestEvaluatorTest {
     @Test
     void testT6() {
         assertTrue(testEvaluator.evaluate(t6.getId()));
+    }
+
+    @Test
+    void testT7() {
+        assertFalse(testEvaluator.evaluate(t7.getId()));
+    }
+
+    /**
+     * Return True if both evr and arch states are correct
+     */
+    @Test
+    void testT8() {
+        assertTrue(testEvaluator.evaluate(t8.getId()));
+    }
+
+    /**
+     * Return False if arch is the same but evr is not satisfied
+     */
+    @Test
+    void testT9() {
+        assertFalse(testEvaluator.evaluate(t9.getId()));
     }
 
     TestType newTestType(String id, ObjectType object, List<StateType> states) {
@@ -135,25 +176,37 @@ public class TestEvaluatorTest {
         return object;
     }
 
-    StateType newStateType(String id, String evr, OperationEnumeration evrOperation, EVRDataTypeEnum evrDatatype) {
-        StateRefType stateRefType = new StateRefType();
-        stateRefType.setStateRef(id);
+    private class StateTypeBuilder {
+        private StateType state = new StateType();
 
-        EVRType evrType = new EVRType();
-        evrType.setDatatype(EVRDataTypeEnum.RPM_EVR);
-        evrType.setOperation(evrOperation);
-        evrType.setValue(evr);
+        public StateTypeBuilder(String id) {
+            state.setId(id);
+        }
 
-        StateType state = new StateType();
-        state.setId(stateRefType.getStateRef());
-        state.setEvr(evrType);
+        public StateTypeBuilder withEVR(String evr, OperationEnumeration operation) {
+            EVRType evrType = new EVRType();
+            evrType.setDatatype(EVRDataTypeEnum.RPM_EVR);
+            evrType.setOperation(operation);
+            evrType.setValue(evr);
 
-        ovalStateManager.add(state);
+            state.setEvr(evrType);
 
-        return state;
-    }
+            return this;
+        }
 
-    StateType newStateType(String id, String evr, OperationEnumeration evrOperation) {
-        return newStateType(id, evr, evrOperation, EVRDataTypeEnum.RPM_EVR);
+        public StateTypeBuilder withArch(String arch, OperationEnumeration operation) {
+            ArchType archType = new ArchType();
+            archType.setValue(arch);
+            archType.setOperation(operation);
+
+            state.setArch(archType);
+
+            return this;
+        }
+
+        public StateType build() {
+            ovalStateManager.add(state);
+            return state;
+        }
     }
 }
