@@ -61,9 +61,9 @@ public class TestEvaluator {
         }
 
         System.out.println(ovalStates.get(0).getStateRef());
-        System.out.println("Operation: " + ovalStateManager.get(ovalStates.get(0).getStateRef()).getEvr().getOperation());
-        System.out.println("Datatype: " + ovalStateManager.get(ovalStates.get(0).getStateRef()).getEvr().getDatatype());
-        System.out.println("Value: " + ovalStateManager.get(ovalStates.get(0).getStateRef()).getEvr().getValue());
+        System.out.println("Operation: " + ovalStateManager.get(ovalStates.get(0).getStateRef()).getPackageEVR().getOperation());
+        System.out.println("Datatype: " + ovalStateManager.get(ovalStates.get(0).getStateRef()).getPackageEVR().getDatatype());
+        System.out.println("Value: " + ovalStateManager.get(ovalStates.get(0).getStateRef()).getPackageEVR().getValue());
 
         List<Boolean> stateEvaluations = ovalStates.stream()
                 .map(StateRefType::getStateRef)
@@ -85,7 +85,7 @@ public class TestEvaluator {
 
                     List<Boolean> stateEntitiesEvaluations = new ArrayList<>();
 
-                    EVRType expectedEvr = expectedState.getEvr();
+                    EVRType expectedEvr = expectedState.getPackageEVR();
                     if (expectedEvr != null) {
                         UyuniAPI.PackageEvr packageOnSystemEVR = evrOptional.get();
                         UyuniAPI.PackageEvr packageOnOvalEVR =
@@ -100,7 +100,7 @@ public class TestEvaluator {
                     }
 
 
-                    ArchType expectedArch = expectedState.getArch();
+                    ArchType expectedArch = expectedState.getPackageArch();
                     if (expectedArch != null) {
                         stateEntitiesEvaluations.add(
                                 checkPackageArch(cvePatchStatus.getPackageArch().orElse(""), expectedArch.getValue(),

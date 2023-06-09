@@ -2,16 +2,11 @@ package com.suse.ovaltypes;
 
 import javax.xml.bind.annotation.*;
 
-/**
- * This represents the epoch, version, and release fields as a single version string. It has the form "EPOCH:VERSION-RELEASE".
- */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5")
-public class EVRType {
+public class VersionType {
     @XmlValue
     private String value;
-    @XmlAttribute(name = "datatype")
-    private EVRDataTypeEnum datatype;
     @XmlAttribute(name = "operation", required = true)
     private OperationEnumeration operation;
 
@@ -21,14 +16,6 @@ public class EVRType {
 
     public void setValue(String value) {
         this.value = value;
-    }
-
-    public EVRDataTypeEnum getDatatype() {
-        return datatype;
-    }
-
-    public void setDatatype(EVRDataTypeEnum datatype) {
-        this.datatype = datatype;
     }
 
     public OperationEnumeration getOperation() {

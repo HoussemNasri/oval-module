@@ -26,10 +26,10 @@ public class Main {
 
         OvalObjectManager ovalObjectManager = new OvalObjectManager(ovalRootType.getObjects().getObjects());
         OvalTestManager ovalTestManager = new OvalTestManager(ovalRootType.getTests().getTests());
-        OvalStateManager ovalStateMAnager = new OvalStateManager(ovalRootType.getStates().getStates());
+        OvalStateManager ovalStateManager = new OvalStateManager(ovalRootType.getStates().getStates());
 
         TestEvaluator testEvaluator = new TestEvaluator(
-                ovalTestManager, ovalObjectManager, ovalStateMAnager, UyuniAPI.listSystemsByPatchStatus(UyuniAPI.User.INSTANCE, "0").collect(Collectors.toList())
+                ovalTestManager, ovalObjectManager, ovalStateManager, UyuniAPI.listSystemsByPatchStatus(UyuniAPI.User.INSTANCE, "0").collect(Collectors.toList())
         );
 
         System.out.println("Evaluation#1 Result: " + testEvaluator.evaluate("oval:org.opensuse.security:tst:2009685834"));
@@ -39,8 +39,10 @@ public class Main {
         System.out.println(ovalObjectManager.get("oval:org.opensuse.security:obj:2009042550").isDpkg());
         System.out.println(ovalObjectManager.get("oval:org.opensuse.security:obj:2009042550").isRpm());
 
-        System.out.println(ovalStateMAnager.get("oval:org.opensuse.security:ste:2009174462").getArch().getValue());
-        System.out.println(ovalStateMAnager.get("oval:org.opensuse.security:ste:2009174462").getArch().getOperation());
+        System.out.println(ovalStateManager.get("oval:org.opensuse.security:ste:2009174462").getPackageArch().getValue());
+        System.out.println(ovalStateManager.get("oval:org.opensuse.security:ste:2009174462").getPackageArch().getOperation());
+
+        System.out.println(ovalStateManager.get("oval:org.opensuse.security:ste:2009178066").getPackageVersion().getValue());
     }
 
     public static void main(String[] args) throws InterruptedException {

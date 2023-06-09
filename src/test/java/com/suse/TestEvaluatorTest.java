@@ -189,7 +189,7 @@ public class TestEvaluatorTest {
             evrType.setOperation(operation);
             evrType.setValue(evr);
 
-            state.setEvr(evrType);
+            state.setPackageEVR(evrType);
 
             return this;
         }
@@ -199,7 +199,7 @@ public class TestEvaluatorTest {
             archType.setValue(arch);
             archType.setOperation(operation);
 
-            state.setArch(archType);
+            state.setPackageArch(archType);
 
             return this;
         }

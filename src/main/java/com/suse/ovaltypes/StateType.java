@@ -34,23 +34,18 @@ public class StateType {
     protected String comment;
     @XmlAttribute(name = "deprecated")
     protected Boolean deprecated;
-    /**
-     * This represents the epoch, version, and release fields as a single version string. It has the form "EPOCH:VERSION-RELEASE".
-     */
-    @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux")
-    protected EVRType evr;
 
-    /**
-     * This is the DPKG package name to check.
-     */
-    @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux")
-    protected String name;
+    @XmlElement(name = "evr", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux")
+    protected EVRType packageEVR;
 
-    /**
-     * This is the architecture for which the package was built, like : i386, ppc, sparc, noarch.
-     */
-    @XmlElement(namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux")
-    protected ArchType arch;
+    @XmlElement(name = "name", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux")
+    protected String packageName;
+
+    @XmlElement(name = "arch", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux")
+    protected ArchType packageArch;
+
+    @XmlElement(name = "version", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux")
+    protected VersionType packageVersion;
 
 
     /**
@@ -131,27 +126,38 @@ public class StateType {
         this.deprecated = value;
     }
 
-    public EVRType getEvr() {
-        return evr;
+    public EVRType getPackageEVR() {
+        return packageEVR;
     }
 
-    public void setEvr(EVRType evr) {
-        this.evr = evr;
+    public void setPackageEVR(EVRType packageEVR) {
+        this.packageEVR = packageEVR;
     }
 
-    public String getName() {
-        return name;
+    /**
+     * Gets the DPKG or RPM package name to check.
+     */
+    public String getPackageName() {
+        return packageName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
     }
 
-    public ArchType getArch() {
-        return arch;
+    public ArchType getPackageArch() {
+        return packageArch;
     }
 
-    public void setArch(ArchType arch) {
-        this.arch = arch;
+    public void setPackageArch(ArchType packageArch) {
+        this.packageArch = packageArch;
+    }
+
+    public VersionType getPackageVersion() {
+        return packageVersion;
+    }
+
+    public void setPackageVersion(VersionType packageVersion) {
+        this.packageVersion = packageVersion;
     }
 }
