@@ -14,7 +14,8 @@ public class TestEvaluator {
     private final OvalStateManager ovalStateManager;
     private final List<UyuniAPI.CVEPatchStatus> systemCvePatchStatusList;
 
-    public TestEvaluator(OvalTestManager ovalTestManager, OvalObjectManager ovalObjectManager, OvalStateManager ovalStateManager, List<UyuniAPI.CVEPatchStatus> systemCvePatchStatusList) {
+    public TestEvaluator(OvalTestManager ovalTestManager, OvalObjectManager ovalObjectManager,
+                         OvalStateManager ovalStateManager, List<UyuniAPI.CVEPatchStatus> systemCvePatchStatusList) {
         Objects.requireNonNull(ovalTestManager);
 
         this.ovalStateManager = ovalStateManager;
@@ -46,7 +47,7 @@ public class TestEvaluator {
                 }
                 break;
             // We have only one component under consideration that is the package name,
-            // thus 'all_exist'and 'at_least_one_exists' are logically equivalent.
+            // thus 'all_exist' and 'at_least_one_exists' are logically equivalent.
             case ALL_EXIST:
             case AT_LEAST_ONE_EXISTS:
                 if (packageVersionsCount < 1) {
@@ -71,6 +72,8 @@ public class TestEvaluator {
 
     private boolean evaluatePackageState(List<UyuniAPI.CVEPatchStatus> packageVersionsOnSystem, StateType expectedState) {
         return packageVersionsOnSystem.stream().anyMatch(cvePatchStatus -> {
+            // This list holds the evaluation results of each of the specified state entities .e.g. arch,
+            // evr, version, etc.
             List<Boolean> stateEntitiesEvaluations = new ArrayList<>();
 
             EVRType expectedEvr = expectedState.getPackageEVR();
@@ -79,12 +82,9 @@ public class TestEvaluator {
                     UyuniAPI.PackageEvr packageOnOvalEVR = UyuniAPI.PackageEvr
                             .parsePackageEvr(toPackageType(expectedEvr.getDatatype()), expectedEvr.getValue());
 
-                    int evrComparison = packageOnSystemEVR.compareTo(packageOnOvalEVR);
+                    int evrComparisonResult = packageOnSystemEVR.compareTo(packageOnOvalEVR);
 
-                    stateEntitiesEvaluations.add(checkPackageEVR(evrComparison, expectedEvr.getOperation()));
-
-                    System.out.println("Comparison between " + packageOnSystemEVR + " and " + packageOnOvalEVR + " yielded value " + evrComparison);
-                    System.out.println("------");
+                    stateEntitiesEvaluations.add(checkPackageEVR(evrComparisonResult, expectedEvr.getOperation()));
                 });
             }
 
@@ -108,7 +108,12 @@ public class TestEvaluator {
     }
 
     private boolean checkPackageEVR(int evrComparisonResult, OperationEnumeration operation) {
-        return (evrComparisonResult == 0 && operation == OperationEnumeration.EQUALS) || (evrComparisonResult != 0 && operation == OperationEnumeration.NOT_EQUAL) || (evrComparisonResult > 0 && operation == OperationEnumeration.GREATER_THAN) || (evrComparisonResult >= 0 && operation == OperationEnumeration.GREATER_THAN_OR_EQUAL) || (evrComparisonResult < 0 && operation == OperationEnumeration.LESS_THAN) || (evrComparisonResult <= 0 && operation == OperationEnumeration.LESS_THAN_OR_EQUAL);
+        return (evrComparisonResult == 0 && operation == OperationEnumeration.EQUALS) ||
+                (evrComparisonResult != 0 && operation == OperationEnumeration.NOT_EQUAL) ||
+                (evrComparisonResult > 0 && operation == OperationEnumeration.GREATER_THAN) ||
+                (evrComparisonResult >= 0 && operation == OperationEnumeration.GREATER_THAN_OR_EQUAL) ||
+                (evrComparisonResult < 0 && operation == OperationEnumeration.LESS_THAN) ||
+                (evrComparisonResult <= 0 && operation == OperationEnumeration.LESS_THAN_OR_EQUAL);
     }
 
     private boolean checkPackageArch(String systemPackageArch, String expectedArch, OperationEnumeration operation) {
@@ -133,11 +138,14 @@ public class TestEvaluator {
     }
 
     private List<UyuniAPI.CVEPatchStatus> listPackageVersionsInstalledOnSystem(String packageName) {
-        return systemCvePatchStatusList.stream().filter(cvePatchStatus -> Optional.ofNullable(packageName).equals(cvePatchStatus.getPackageName())).collect(Collectors.toList());
+        return systemCvePatchStatusList.stream()
+                .filter(cvePatchStatus -> Optional.ofNullable(packageName).equals(cvePatchStatus.getPackageName()))
+                .collect(Collectors.toList());
     }
 
     private UyuniAPI.PackageType toPackageType(EVRDataTypeEnum evrDataTypeEnum) {
         Objects.requireNonNull(evrDataTypeEnum);
+
         return evrDataTypeEnum == EVRDataTypeEnum.DEBIAN_EVR ? UyuniAPI.PackageType.DEB : UyuniAPI.PackageType.RPM;
     }
 
@@ -153,9 +161,5 @@ public class TestEvaluator {
                 return booleans.stream().filter(Boolean::booleanValue).count() == 1L;
         }
         return false;
-    }
-
-    private boolean combineBooleans(LogicOperatorType operator, Boolean... evaluations) {
-        return combineBooleans(operator, Arrays.asList(evaluations));
     }
 }
