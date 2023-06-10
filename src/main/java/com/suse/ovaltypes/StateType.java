@@ -34,16 +34,10 @@ public class StateType {
     protected String comment;
     @XmlAttribute(name = "deprecated")
     protected Boolean deprecated;
-
     @XmlElement(name = "evr", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux")
     protected EVRType packageEVR;
-
-    @XmlElement(name = "name", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux")
-    protected String packageName;
-
     @XmlElement(name = "arch", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux")
     protected ArchType packageArch;
-
     @XmlElement(name = "version", namespace = "http://oval.mitre.org/XMLSchema/oval-definitions-5#linux")
     protected VersionType packageVersion;
 
@@ -132,17 +126,6 @@ public class StateType {
 
     public void setPackageEVR(EVRType packageEVR) {
         this.packageEVR = packageEVR;
-    }
-
-    /**
-     * Gets the DPKG or RPM package name to check.
-     */
-    public String getPackageName() {
-        return packageName;
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
     }
 
     public ArchType getPackageArch() {
