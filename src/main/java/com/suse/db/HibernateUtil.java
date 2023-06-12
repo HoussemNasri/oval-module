@@ -13,10 +13,17 @@ public class HibernateUtil {
     public static Session getSession() {
         Configuration configuration = new Configuration();
         configuration.addAnnotatedClass(OvalFileEntity.class);
-        configuration.addAnnotatedClass(ProductEntity.class);
-        configuration.addAnnotatedClass(DefinitionEntity.class);
-        configuration.addAnnotatedClass(AffectedProductEntity.class);
-        configuration.addAnnotatedClass(ReferenceEntity.class);
+        configuration.addAnnotatedClass(Product.class);
+        configuration.addAnnotatedClass(Definition.class);
+        configuration.addAnnotatedClass(AffectedProduct.class);
+        configuration.addAnnotatedClass(Reference.class);
+        configuration.addAnnotatedClass(CVE.class);
+        configuration.addAnnotatedClass(PackageTest.class);
+        configuration.addAnnotatedClass(PackageState.class);
+        configuration.addAnnotatedClass(PackageObject.class);
+        configuration.addAnnotatedClass(PackageEvrStateEntity.class);
+        configuration.addAnnotatedClass(PackageArchStateEntity.class);
+        configuration.addAnnotatedClass(PackageVersionStateEntity.class);
 
         configuration.configure("hibernate.cfg.xml");
 

@@ -7,10 +7,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "oval_definition")
-public class DefinitionEntity {
+public class Definition {
     @Id
     private String id;
     @Enumerated(EnumType.STRING)
+    @Column(name = "class")
     private DefinitionClassEnum defClass;
     private String title;
     private String description;
@@ -23,17 +24,25 @@ public class DefinitionEntity {
             joinColumns = {@JoinColumn(name = "definition_id")},
             inverseJoinColumns = {@JoinColumn(name = "reference_id")}
     )
-    private Set<ReferenceEntity> references;
+    private Set<Reference> references;
+
+    @ManyToMany
+    @JoinTable(
+            name = "definition_cve",
+            joinColumns = {@JoinColumn(name = "definition_id")},
+            inverseJoinColumns = {@JoinColumn(name = "cve_id")}
+    )
+    private Set<Reference> cves;
 
     @OneToMany(mappedBy = "definition")
-    private Set<AffectedProductEntity> affectedProducts;
+    private Set<AffectedProduct> affectedProducts;
 
 
-    public DefinitionEntity() {
+    public Definition() {
 
     }
 
-    public DefinitionEntity(String id) {
+    public Definition(String id) {
         this.id = id;
     }
 
@@ -83,5 +92,17 @@ public class DefinitionEntity {
 
     public void setDeprecated(Boolean deprecated) {
         this.deprecated = deprecated;
+    }
+
+    public Set<Reference> getReferences() {
+        return references;
+    }
+
+    public Set<AffectedProduct> getAffectedProducts() {
+        return affectedProducts;
+    }
+
+    public Set<Reference> getCves() {
+        return cves;
     }
 }

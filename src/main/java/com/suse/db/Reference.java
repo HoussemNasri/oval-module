@@ -6,17 +6,17 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "reference")
-public class ReferenceEntity {
+public class Reference {
     @Id
     private String id;
     private String url;
     private String source;
 
-    public ReferenceEntity() {
+    public Reference() {
         id = "";
     }
 
-    public ReferenceEntity(String id) {
+    public Reference(String id) {
         this.id = id;
     }
 

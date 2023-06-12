@@ -8,18 +8,18 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "affected_products")
-public class AffectedProductEntity {
+public class AffectedProduct {
     @EmbeddedId
     private Id id;
     @MapsId("productId")
     @ManyToOne
     @JoinColumn(name = "product_id")
-    private ProductEntity product;
+    private Product product;
 
     @MapsId("productId")
     @ManyToOne
     @JoinColumn(name = "definition_id")
-    private DefinitionEntity definition;
+    private Definition definition;
 
     private FamilyEnum family;
 
@@ -27,11 +27,11 @@ public class AffectedProductEntity {
         return id;
     }
 
-    public ProductEntity getProduct() {
+    public Product getProduct() {
         return product;
     }
 
-    public DefinitionEntity getDefinition() {
+    public Definition getDefinition() {
         return definition;
     }
 
