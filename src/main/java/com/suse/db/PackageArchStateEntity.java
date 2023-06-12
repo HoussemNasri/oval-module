@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Table(name = "package_arch_state_entity")
 public class PackageArchStateEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String arch;
     @Enumerated(EnumType.STRING)
@@ -15,10 +16,6 @@ public class PackageArchStateEntity {
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getArch() {

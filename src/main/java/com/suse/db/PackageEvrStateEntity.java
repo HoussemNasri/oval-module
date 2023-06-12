@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Table(name = "package_evr_state_entity")
 public class PackageEvrStateEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     String evr;
     @Enumerated(EnumType.STRING)
@@ -19,10 +20,6 @@ public class PackageEvrStateEntity {
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getEvr() {
