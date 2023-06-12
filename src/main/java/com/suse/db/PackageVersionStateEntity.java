@@ -5,7 +5,7 @@ import com.suse.ovaltypes.OperationEnumeration;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "package_evr_state_entity")
+@Table(name = "package_version_state_entity")
 public class PackageVersionStateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
