@@ -1,11 +1,16 @@
 package com.suse;
 
+import com.suse.db.HibernateUtil;
+import com.suse.db.OvalFileEntity;
 import com.suse.manager.OvalObjectManager;
 import com.suse.manager.OvalStateManager;
 import com.suse.manager.OvalTestManager;
 import com.suse.ovaltypes.OvalRootType;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.io.File;
+import java.time.Instant;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -46,9 +51,9 @@ public class Main {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        new Main().run();
+        // new Main().run();
 
-/*        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction transaction = session.beginTransaction();
 
         OvalFileEntity ovalFile = new OvalFileEntity();
@@ -60,7 +65,7 @@ public class Main {
         session.flush();
 
         session.close();
-        HibernateUtil.close();*/
+        HibernateUtil.close();
 
 
     }
