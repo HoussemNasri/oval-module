@@ -21,7 +21,7 @@ public class PackageTest {
     @Enumerated(EnumType.STRING)
     private LogicOperatorType stateOperator;
     private boolean isRpm;
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
     private PackageObject packageObject;
     @OneToMany(mappedBy = "id")
     private List<PackageState> packageStates;
@@ -89,4 +89,6 @@ public class PackageTest {
     public void setRpm(boolean rpm) {
         isRpm = rpm;
     }
+
+
 }
