@@ -33,4 +33,8 @@ public class PackageArchStateEntity {
     public void setOperation(OperationEnumeration operation) {
         this.operation = operation;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
