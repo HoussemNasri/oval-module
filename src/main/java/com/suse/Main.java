@@ -1,14 +1,19 @@
 package com.suse;
 
+import com.suse.db.HibernateUtil;
+import com.suse.db.IOvalDao;
+import com.suse.db.OvalDaoImpl;
 import com.suse.manager.OvalObjectManager;
 import com.suse.manager.OvalStateManager;
 import com.suse.manager.OvalTestManager;
 import com.suse.ovaltypes.OvalRootType;
+import org.hibernate.Session;
 
 import java.io.File;
 import java.util.stream.Collectors;
 
 public class Main {
+    static Session session = HibernateUtil.getSession();
 
     private void run() throws InterruptedException {
         long start = System.currentTimeMillis();
@@ -43,25 +48,18 @@ public class Main {
         System.out.println(ovalStateManager.get("oval:org.opensuse.security:ste:2009174462").getPackageArch().getOperation());
 
         System.out.println(ovalStateManager.get("oval:org.opensuse.security:ste:2009178066").getPackageVersion().getValue());
+
+        IOvalDao ovalDao = new OvalDaoImpl(session);
+
+        ovalDao.insertObjects(ovalRootType.getObjects().getObjects());
+        ovalDao.insertStates(ovalRootType.getStates().getStates());
+        ovalDao.insertTests(ovalRootType.getTests().getTests());
     }
 
     public static void main(String[] args) throws InterruptedException {
         new Main().run();
 
-/*        Session session = HibernateUtil.getSession();
-        Transaction transaction = session.beginTransaction();
-
-        OvalFileEntity ovalFile = new OvalFileEntity();
-        ovalFile.setGenerationTimestamp(Instant.now());
-        ovalFile.setSource("aa");
-        ovalFile.setGeneratorName("bb");
-        ovalFile.setSchemaVersion(5);
-        session.save(ovalFile);
-        session.flush();
-
         session.close();
-        HibernateUtil.close();*/
-
-
+        HibernateUtil.close();
     }
 }
