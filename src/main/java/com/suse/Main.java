@@ -51,9 +51,10 @@ public class Main {
 
         IOvalDao ovalDao = new OvalDaoImpl(session);
 
-        ovalDao.insertObjects(ovalRootType.getObjects().getObjects());
+/*        ovalDao.insertObjects(ovalRootType.getObjects().getObjects());
         ovalDao.insertStates(ovalRootType.getStates().getStates());
-        ovalDao.insertTests(ovalRootType.getTests().getTests());
+        ovalDao.insertTests(ovalRootType.getTests().getTests());*/
+        ovalDao.insertDefinitions(ovalRootType.getDefinitions().getDefinitions());
     }
 
     public static void main(String[] args) throws InterruptedException {

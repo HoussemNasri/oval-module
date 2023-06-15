@@ -7,6 +7,8 @@ import org.hibernate.Transaction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class OvalDaoImpl implements IOvalDao {
     private final Session session;
@@ -137,6 +139,39 @@ public class OvalDaoImpl implements IOvalDao {
         tests.forEach(this::saveTest);
 
         transaction.commit();
+    }
+
+    @Override
+    public void insertDefinitions(List<DefinitionType> definitions) {
+        Transaction transaction = session.beginTransaction();
+
+        definitions.forEach(this::saveDefinition);
+
+        transaction.commit();
+    }
+
+    private void saveDefinition(DefinitionType definitionType) {
+        Definition definition = new Definition();
+        definition.setId(definitionType.getId());
+        definition.setTitle(definitionType.getMetadata().getTitle());
+        definition.setVersion(definitionType.getVersion().intValue());
+        definition.setDescription(definitionType.getMetadata().getDescription());
+        definition.setDefClass(definitionType.getDefinitionClass());
+
+        List<Reference> references = definitionType.getMetadata().getReference().stream().map(referenceType -> {
+            Reference reference = new Reference();
+            reference.setId(referenceType.getRefId());
+            reference.setUrl(referenceType.getRefUrl().orElse(""));
+            reference.setSource(referenceType.getSource());
+
+            return reference;
+        }).collect(Collectors.toList());
+
+        references.forEach(session::merge);
+
+        definition.setReferences(references);
+
+        session.saveOrUpdate(definition);
     }
 
 }

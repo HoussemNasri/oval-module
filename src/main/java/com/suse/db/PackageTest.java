@@ -16,7 +16,7 @@ public class PackageTest {
     @Enumerated(EnumType.STRING)
     private ExistenceEnum checkExistence;
     @Enumerated(EnumType.STRING)
-    @Column(name = "test_check") // Check is reserved in PostgresSQL
+    @Column(name = "test_check") // check is reserved in PostgresSQL
     private CheckEnum check;
     @Enumerated(EnumType.STRING)
     private LogicOperatorType stateOperator;

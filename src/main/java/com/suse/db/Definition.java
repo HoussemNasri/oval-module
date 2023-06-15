@@ -1,8 +1,10 @@
 package com.suse.db;
 
 import com.suse.ovaltypes.DefinitionClassEnum;
+import org.hibernate.annotations.ManyToAny;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -14,9 +16,9 @@ public class Definition {
     @Column(name = "class")
     private DefinitionClassEnum defClass;
     private String title;
+    @Column(length = 10_000)
     private String description;
     private Integer version;
-    private Boolean deprecated;
 
     @ManyToMany
     @JoinTable(
@@ -24,7 +26,7 @@ public class Definition {
             joinColumns = {@JoinColumn(name = "definition_id")},
             inverseJoinColumns = {@JoinColumn(name = "reference_id")}
     )
-    private Set<Reference> references;
+    private List<Reference> references;
 
     @ManyToMany
     @JoinTable(
@@ -32,10 +34,10 @@ public class Definition {
             joinColumns = {@JoinColumn(name = "definition_id")},
             inverseJoinColumns = {@JoinColumn(name = "cve_id")}
     )
-    private Set<Reference> cves;
+    private List<CVE> cves;
 
     @OneToMany(mappedBy = "definition")
-    private Set<AffectedProduct> affectedProducts;
+    private List<AffectedProduct> affectedProducts;
 
 
     public Definition() {
@@ -86,23 +88,27 @@ public class Definition {
         this.version = version;
     }
 
-    public Boolean isDeprecated() {
-        return deprecated;
-    }
-
-    public void setDeprecated(Boolean deprecated) {
-        this.deprecated = deprecated;
-    }
-
-    public Set<Reference> getReferences() {
+    public List<Reference> getReferences() {
         return references;
     }
 
-    public Set<AffectedProduct> getAffectedProducts() {
+    public List<AffectedProduct> getAffectedProducts() {
         return affectedProducts;
     }
 
-    public Set<Reference> getCves() {
+    public List<CVE> getCves() {
         return cves;
+    }
+
+    public void setReferences(List<Reference> references) {
+        this.references = references;
+    }
+
+    public void setCves(List<CVE> cves) {
+        this.cves = cves;
+    }
+
+    public void setAffectedProducts(List<AffectedProduct> affectedProducts) {
+        this.affectedProducts = affectedProducts;
     }
 }
