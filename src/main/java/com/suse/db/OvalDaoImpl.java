@@ -4,6 +4,8 @@ import com.suse.ovaltypes.*;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -149,6 +151,14 @@ public class OvalDaoImpl implements IOvalDao {
         transaction.commit();
     }
 
+    @Override
+    public List<String> getAffectedProducts(String cve) {
+        TypedQuery<AffectedProduct> query = session.createNamedQuery("AffectedProduct.getAffectedProductsByCVE", AffectedProduct.class);
+        List<AffectedProduct> affectedProducts = query.getResultList();
+
+        return affectedProducts.stream().map(ap -> ap.getProduct().getName()).collect(Collectors.toList());
+    }
+
     private void saveDefinition(DefinitionType definitionType) {
         Definition definition = new Definition();
         definition.setId(definitionType.getId());
@@ -159,11 +169,11 @@ public class OvalDaoImpl implements IOvalDao {
 
         List<Reference> references = saveReferences(definitionType.getMetadata().getReference());
         List<CVE> cves = saveCves(definitionType, definition);
-
-        definition.setReferences(references);
         definition.setCves(cves);
 
-        session.saveOrUpdate(definition);
+        definition.setReferences(references);
+
+        session.merge(definition);
 
         saveAffectedProducts(definition, definitionType.getMetadata().getAffected().get(0).getPlatforms());
     }

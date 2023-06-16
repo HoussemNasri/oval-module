@@ -6,6 +6,17 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "AffectedProduct.getAffectedProductsByCVE",
+                query = "SELECT ap " +
+                        "FROM AffectedProduct ap " +
+                        "JOIN ap.definition d " +
+                        "JOIN ap.product " +
+                        "JOIN d.cves cve_definition " +
+                        "WHERE cve_definition.cve.cveId = 'CVE-2022-38751' "
+        )
+})
 @Entity
 @Table(name = "affected_products")
 public class AffectedProduct {

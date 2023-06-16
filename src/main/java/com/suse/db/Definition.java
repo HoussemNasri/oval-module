@@ -6,6 +6,7 @@ import org.hibernate.annotations.ManyToAny;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "oval_definition")
@@ -28,13 +29,8 @@ public class Definition {
     )
     private List<Reference> references;
 
-    @ManyToMany
-    @JoinTable(
-            name = "definition_cve",
-            joinColumns = {@JoinColumn(name = "definition_id")},
-            inverseJoinColumns = {@JoinColumn(name = "cve_id")}
-    )
-    private List<CVE> cves;
+    @OneToMany(mappedBy = "definition", cascade = CascadeType.ALL)
+    private List<Definition_CVE> cves;
 
     @OneToMany(mappedBy = "definition")
     private List<AffectedProduct> affectedProducts;
@@ -96,19 +92,25 @@ public class Definition {
         return affectedProducts;
     }
 
-    public List<CVE> getCves() {
-        return cves;
-    }
-
     public void setReferences(List<Reference> references) {
         this.references = references;
     }
 
-    public void setCves(List<CVE> cves) {
-        this.cves = cves;
-    }
-
     public void setAffectedProducts(List<AffectedProduct> affectedProducts) {
         this.affectedProducts = affectedProducts;
+    }
+
+    public List<Definition_CVE> getCves() {
+        return cves;
+    }
+
+    public void setCves(List<CVE> cves) {
+        this.cves = cves.stream().map(cve -> {
+            Definition_CVE definitionCve = new Definition_CVE();
+            definitionCve.setId(new Definition_CVE.Id());
+            definitionCve.setDefinition(Definition.this);
+            definitionCve.setCve(cve);
+            return definitionCve;
+        }).collect(Collectors.toList());
     }
 }

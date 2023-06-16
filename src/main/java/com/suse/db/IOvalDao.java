@@ -15,4 +15,6 @@ public interface IOvalDao {
     void insertTests(List<TestType> tests);
 
     void insertDefinitions(List<DefinitionType> definitions);
+
+    List<String> getAffectedProducts(String cve);
 }

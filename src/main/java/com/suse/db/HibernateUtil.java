@@ -24,6 +24,7 @@ public class HibernateUtil {
         configuration.addAnnotatedClass(PackageEvrStateEntity.class);
         configuration.addAnnotatedClass(PackageArchStateEntity.class);
         configuration.addAnnotatedClass(PackageVersionStateEntity.class);
+        configuration.addAnnotatedClass(Definition_CVE.class);
 
         configuration.configure("hibernate.cfg.xml");
 
