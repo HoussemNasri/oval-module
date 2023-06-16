@@ -7,7 +7,6 @@ import org.hibernate.Transaction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class OvalDaoImpl implements IOvalDao {
@@ -158,20 +157,98 @@ public class OvalDaoImpl implements IOvalDao {
         definition.setDescription(definitionType.getMetadata().getDescription());
         definition.setDefClass(definitionType.getDefinitionClass());
 
-        List<Reference> references = definitionType.getMetadata().getReference().stream().map(referenceType -> {
-            Reference reference = new Reference();
-            reference.setId(referenceType.getRefId());
-            reference.setUrl(referenceType.getRefUrl().orElse(""));
-            reference.setSource(referenceType.getSource());
+        List<Reference> references = saveReferences(definitionType.getMetadata().getReference());
+        List<CVE> cves = saveCves(definitionType, definition);
 
-            return reference;
-        }).collect(Collectors.toList());
+        definition.setReferences(references);
+        definition.setCves(cves);
+
+        session.saveOrUpdate(definition);
+
+        saveAffectedProducts(definition, definitionType.getMetadata().getAffected().get(0).getPlatforms());
+    }
+
+    private List<AffectedProduct> saveAffectedProducts(Definition definition, List<String> affectedPlatforms) {
+        List<AffectedProduct> affectedProducts =
+                affectedPlatforms.stream().map(productName -> {
+                    Product product = saveProduct(productName);
+
+                    AffectedProduct affectedProduct = new AffectedProduct();
+                    affectedProduct.setDefinition(definition);
+                    affectedProduct.setProduct(product);
+                    affectedProduct.setId(new AffectedProduct.Id());
+
+                    return affectedProduct;
+                }).collect(Collectors.toList());
+
+        affectedProducts.forEach(session::merge);
+
+        return affectedProducts;
+    }
+
+    private Product saveProduct(String productName) {
+        Product product = new Product();
+        product.setName(productName);
+        session.merge(product);
+        return product;
+    }
+
+    private List<CVE> saveCves(DefinitionType definitionType, Definition definition) {
+        List<CVE> cves = new ArrayList<>();
+
+        if (definition.getDefClass() == DefinitionClassEnum.VULNERABILITY) {
+            cves.add(extractCveFromVulnerabilityDefinition(definitionType));
+        } else if (definition.getDefClass() == DefinitionClassEnum.PATCH) {
+            cves.addAll(extractCvesFromPatchDefinition(definitionType));
+        } else {
+            throw new IllegalStateException("The '" + definition.getDefClass() + "' definition class in not supported");
+        }
+
+        cves.forEach(session::merge);
+
+        return cves;
+    }
+
+    private List<Reference> saveReferences(List<ReferenceType> referenceTypes) {
+        List<Reference> references = referenceTypes.stream()
+                .map(this::mapReferenceTypeToReference)
+                .collect(Collectors.toList());
 
         references.forEach(session::merge);
 
-        definition.setReferences(references);
+        return references;
+    }
 
-        session.saveOrUpdate(definition);
+    private Reference mapReferenceTypeToReference(ReferenceType referenceType) {
+        Reference reference = new Reference();
+        reference.setId(referenceType.getRefId());
+        reference.setUrl(referenceType.getRefUrl().orElse(""));
+        reference.setSource(referenceType.getSource());
+
+        return reference;
+    }
+
+    public CVE extractCveFromVulnerabilityDefinition(DefinitionType definitionType) {
+        assert definitionType.getDefinitionClass() == DefinitionClassEnum.VULNERABILITY;
+
+        CVE cve = new CVE();
+        cve.setCveId(definitionType.getMetadata().getTitle());
+
+        return cve;
+    }
+
+    public List<CVE> extractCvesFromPatchDefinition(DefinitionType definitionType) {
+        assert definitionType.getDefinitionClass() == DefinitionClassEnum.PATCH;
+
+        return definitionType.getMetadata().getReference().stream()
+                .filter(ref -> "CVE".equals(ref.getSource()))
+                .map(ReferenceType::getRefId)
+                .map(cveId -> {
+                    CVE cve = new CVE();
+                    cve.setCveId(cveId);
+                    return cve;
+                })
+                .collect(Collectors.toList());
     }
 
 }

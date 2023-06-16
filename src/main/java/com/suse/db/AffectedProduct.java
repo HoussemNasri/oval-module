@@ -16,7 +16,7 @@ public class AffectedProduct {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @MapsId("productId")
+    @MapsId("definitionId")
     @ManyToOne
     @JoinColumn(name = "definition_id")
     private Definition definition;
@@ -39,17 +39,33 @@ public class AffectedProduct {
         return family;
     }
 
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public void setDefinition(Definition definition) {
+        this.definition = definition;
+    }
+
+    public void setId(Id id) {
+        this.id = id;
+    }
+
+    public void setFamily(FamilyEnum family) {
+        this.family = family;
+    }
+
     public static class Id implements Serializable {
         @Column(name = "definition_id")
         private String definitionId;
         @Column(name = "product_id")
-        private Long productId;
+        private String productId;
 
         public String getDefinitionId() {
             return definitionId;
         }
 
-        public Long getProductId() {
+        public String getProductId() {
             return productId;
         }
 
@@ -57,7 +73,7 @@ public class AffectedProduct {
             this.definitionId = definitionId;
         }
 
-        public void setProductId(Long productId) {
+        public void setProductId(String productId) {
             this.productId = productId;
         }
 
