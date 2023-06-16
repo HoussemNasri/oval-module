@@ -168,7 +168,9 @@ public class OvalDaoImpl implements IOvalDao {
 
     @Override
     public Optional<Definition> getVulnerabilityDefinition(String cve) {
-        return Optional.empty();
+        return session.createNamedQuery("Definition.getVulnerabilityDefinition", Definition.class)
+                .setParameter("cve", cve)
+                .uniqueResultOptional();
     }
 
     private void saveDefinition(DefinitionType definitionType) {
