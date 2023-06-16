@@ -8,6 +8,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@NamedQueries({
+        @NamedQuery(name = "Definition.getPatchDefinitions",
+        query = "SELECT d FROM Definition d " +
+                " JOIN d.cves cves " +
+                "WHERE d.defClass = com.suse.ovaltypes.DefinitionClassEnum.PATCH and cves.cve.cveId = :cve"
+        )
+})
 @Entity
 @Table(name = "oval_definition")
 public class Definition {

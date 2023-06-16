@@ -4,11 +4,10 @@ import com.suse.ovaltypes.*;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class OvalDaoImpl implements IOvalDao {
@@ -153,10 +152,23 @@ public class OvalDaoImpl implements IOvalDao {
 
     @Override
     public List<String> getAffectedProducts(String cve) {
-        TypedQuery<AffectedProduct> query = session.createNamedQuery("AffectedProduct.getAffectedProductsByCVE", AffectedProduct.class);
-        List<AffectedProduct> affectedProducts = query.getResultList();
+        List<AffectedProduct> affectedProducts = session
+                .createNamedQuery("AffectedProduct.getAffectedProductsByCVE", AffectedProduct.class)
+                .getResultList();
 
         return affectedProducts.stream().map(ap -> ap.getProduct().getName()).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Definition> getPatchDefinitions(String cve) {
+        return session.createNamedQuery("Definition.getPatchDefinitions", Definition.class)
+                .setParameter("cve", cve)
+                .getResultList();
+    }
+
+    @Override
+    public Optional<Definition> getVulnerabilityDefinition(String cve) {
+        return Optional.empty();
     }
 
     private void saveDefinition(DefinitionType definitionType) {

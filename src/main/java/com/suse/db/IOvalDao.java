@@ -6,6 +6,7 @@ import com.suse.ovaltypes.StateType;
 import com.suse.ovaltypes.TestType;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IOvalDao {
     void insertObjects(List<ObjectType> objects);
@@ -17,4 +18,9 @@ public interface IOvalDao {
     void insertDefinitions(List<DefinitionType> definitions);
 
     List<String> getAffectedProducts(String cve);
+
+    List<Definition> getPatchDefinitions(String cve);
+
+    Optional<Definition> getVulnerabilityDefinition(String cve);
+
 }
