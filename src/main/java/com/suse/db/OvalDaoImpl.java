@@ -124,10 +124,12 @@ public class OvalDaoImpl implements IOvalDao {
         packageTest.setPackageObject(packageObject);
 
         List<PackageState> packageStates = new ArrayList<>();
-        for (StateRefType stateRef : test.getStates()) {
-            PackageState packageState = session.byId(PackageState.class).load(stateRef.getStateRef());
+
+        test.getStateRef().ifPresent(stateRef -> {
+            PackageState packageState = session.byId(PackageState.class).load(stateRef);
             packageStates.add(packageState);
-        }
+        });
+
         packageTest.setPackageStates(packageStates);
 
         session.saveOrUpdate(packageTest);

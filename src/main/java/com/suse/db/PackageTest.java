@@ -23,6 +23,7 @@ public class PackageTest {
     private boolean isRpm;
     @ManyToOne(optional = false)
     private PackageObject packageObject;
+    // TODO: There is only one state per test
     @OneToMany(mappedBy = "id")
     private List<PackageState> packageStates;
 

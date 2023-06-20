@@ -10,8 +10,8 @@ package com.suse.ovaltypes;
 
 import javax.xml.bind.annotation.*;
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -165,12 +165,18 @@ public class TestType {
 
     /**
      * Gets the value of the state property.
+     * <p>
+     * Although the OVAL specs says that an OVAL test could have 0 or more states but for the OVAL files that we're
+     * consuming, it's always 0 or 1 state hence an {@code Optional<T>} is used.
      */
-    public List<StateRefType> getStates() {
-        if (states == null) {
-            states = new ArrayList<StateRefType>();
+    public Optional<String> getStateRef() {
+        if (this.states == null) {
+            return Optional.empty();
+        } else if (this.states.size() == 1) {
+            return Optional.ofNullable(states.get(0).getStateRef());
+        } else {
+            throw new IllegalStateException("Each test is expected to have 0 or 1 state. See the comment above the method");
         }
-        return this.states;
     }
 
     public LogicOperatorType getStateOperator() {

@@ -56,13 +56,12 @@ public class TestEvaluator {
                 break;
         }
 
-        List<StateRefType> ovalStates = test.getStates();
-        if (ovalStates.isEmpty()) {
+        Optional<String> ovalState = test.getStateRef();
+        if (ovalState.isEmpty()) {
             return true;
         }
 
-        List<Boolean> stateEvaluations = ovalStates.stream()
-                .map(StateRefType::getStateRef)
+        List<Boolean> stateEvaluations = ovalState.stream()
                 .map(ovalStateManager::get)
                 .map(state -> evaluatePackageState(packageVersionsOnSystem, state))
                 .collect(Collectors.toList());
